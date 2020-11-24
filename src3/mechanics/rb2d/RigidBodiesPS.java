@@ -51,18 +51,27 @@ public class RigidBodiesPS extends PhysicalSystem {
 	}
 
 	public RigidBodiesPS() {
-		rigidBodies = new RigidBody[1];
-		rigidBodies[0] = new RigidBody(1, new Vector2D(1, 4), new Vector2D(1, 0), new Vector2D(0, 0), 1, -45, 0, 0, 4, 2,
-				1, true, false, true, false);
+		rigidBodies = new RigidBody[5];
+		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
+				0.9, false, false, true, false);
+		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
+				0.9, false, false, true, false);
+		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
+				0.9, false, false, true, false);
+		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
+				0.9, false, false, true, false);
+		rigidBodies[4] = new RigidBody(1, new Vector2D(0, 0), new Vector2D(3, 1), new Vector2D(0,0), 1, 40, 0.1, 0, 4, 0.2,
+				0.2, false, false, true, true);
+		
 
 
 		balls = new Ball[0];
 //		balls[0] = new Ball(10, new Vector2D(-1.1, 4.5), new Vector2D(2, 0), new Vector2D(0, 0), 0.5, 0.7, 0.05);
 //		balls[1] = new Ball(0.5, new Vector2D(1, 2.8), new Vector2D(0, -1), new Vector2D(0, 0), 1, 0.7, 0.05);
 
-		inclines = new Incline[1];
+		inclines = new Incline[0];
 //		inclines[0] = new Incline(new Vector2D(0, 0), 45, 10);
-		inclines[0] = new Incline(new Vector2D(-3, 4), -45, 20);
+//		inclines[0] = new Incline(new Vector2D(-3, 4), -45, 20);
 	}
 
 	@Override

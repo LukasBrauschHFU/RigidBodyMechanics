@@ -112,30 +112,30 @@ public class RigidBodyCollisionHandler implements Runnable {
 			Vector2D r1m_r_ = VectorMath.add(r1mr_, p);
 			Vector2D r2m_r_ = VectorMath.add(r2mr_, p);
 
-			rb1.v.set(V1r);
-			rb2.v.set(V2r);
+//			rb1.v.set(V1r);
+//			rb2.v.set(V2r);
 
 			rb1.omega = Omega1;
 			rb2.omega = Omega2;
 
-			rb1.phi = phi1r;
-			rb2.phi = phi2r;
+//			rb1.phi = phi1r;
+//			rb2.phi = phi2r;
 
-			rb1.r.set(r1mr);
-			rb2.r.set(r2mr);
+//			rb1.r.set(r1mr);
+//			rb2.r.set(r2mr);
 
 			
-//			rb1.v.set(V1r_);
-//			rb2.v.set(V2r_);
+			rb1.v.set(V1r_);
+			rb2.v.set(V2r_);
 //
 //			rb1.omega = Omega1;
 //			rb2.omega = Omega2;
 //
 //			rb1.phi = phi1r_;
 //			rb2.phi = phi2r_;
-//
-//			rb1.r.set(r1mr);
-//			rb2.r.set(r2mr);
+
+//			rb1.r.set(r1m_r_);
+//			rb2.r.set(r2m_r_);
 	}
 
 	private Vector2D rotateVector2D(Vector2D r, double rot) {
