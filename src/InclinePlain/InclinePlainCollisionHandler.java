@@ -1,20 +1,17 @@
 package InclinePlain;
 
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-
-import Helper.Helper;
+import static java.lang.Math.*;
 import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.components.VectorMath;
+import de.physolator.usr.tvg.Shape;
+import de.physolator.usr.tvg.TVG;
 import mechanics.rb2d.Impactpoint;
 
 public class InclinePlainCollisionHandler implements Runnable {
 	private Ball ball;
 	private Incline il;
-	protected double g = -9.81;
-	public Helper helper;
 	private Impactpoint ip;
-	private double rot = 0;
+	protected double g = -9.81;
 
 	public InclinePlainCollisionHandler(Ball ball, Incline il, Impactpoint ip) {
 		this.ball = ball;
@@ -23,11 +20,14 @@ public class InclinePlainCollisionHandler implements Runnable {
 	}
 
 	public void run() {
+		double rot;
 		ball.ballState = BallState.FLYING;
+
+		Vector2D direction = checkDirection(il.direction);
 		if (il.ilVar == InclineVar.PLANE) {
 			rot = Math.PI / 2 - il.alpha;
 		} else {
-			rot = VectorMath.angle(new Vector2D(0, 1), il.direction);
+			rot = VectorMath.angle(new Vector2D(0, 1), direction);
 		}
 
 		Vector2D rm = VectorMath.sub(ball.r, ip.impactPoint);
@@ -49,6 +49,14 @@ public class InclinePlainCollisionHandler implements Runnable {
 		ball.v.set(Vr_);
 		ball.r.set(rm_r_);
 		ball.phi = Phir_;
+	}
+
+	private Vector2D checkDirection(Vector2D direction) {
+		if ((direction.x < 0 && direction.y < 0) || (direction.x < 0 && direction.y > 0)) {
+			System.out.println("Rotate Direction");
+			return rotateVector2D(direction, Math.PI);
+		}
+		return direction;
 	}
 
 	private Vector2D rotateVector2D(Vector2D r, double rot) {

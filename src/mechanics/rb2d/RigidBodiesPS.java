@@ -1,11 +1,12 @@
 package mechanics.rb2d;
 
 import mechanics.tvg.MechanicsTVG;
-import Helper.ObjectPosition;
+//import Helper.ObjectPosition;
 import InclinePlain.Ball;
 import InclinePlain.BallState;
 import InclinePlain.Incline;
 import InclinePlain.ObjectMovement;
+import InclinePlain.ObjectPosition;
 import de.physolator.gui.swt.t;
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
@@ -38,40 +39,47 @@ public class RigidBodiesPS extends PhysicalSystem {
 		mTVG.showLabels = true;
 		mTVG.showPath = true;
 		mTVG.showVelocity = true;
-		mTVG.showAcceleration = true;
+		mTVG.showAcceleration = false;
 		mTVG.showAccelerationX = false;
 		mTVG.showAccelerationY = false;
 		mTVG.showFr = true;
 		mTVG.showFn = false;
 		mTVG.showFg = false;
-		mTVG.showFh = true;
+		mTVG.showFh = false;
 		mTVG.showFres = false;
 		mTVG.showFl = false;
 		g.addTVG(mTVG);
 	}
 
 	public RigidBodiesPS() {
-		rigidBodies = new RigidBody[5];
-		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
+		rigidBodies = new RigidBody[1];
+		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(2, 1), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 3,
 				0.9, false, false, true, false);
-		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
-				0.9, false, false, true, false);
-		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
-				0.9, false, false, true, false);
-		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
-				0.9, false, false, true, false);
-		rigidBodies[4] = new RigidBody(1, new Vector2D(0, 0), new Vector2D(3, 1), new Vector2D(0,0), 1, 40, 0.1, 0, 4, 0.2,
-				0.2, false, false, true, true);
-		
+//		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
+//				0.9, false, false, true, false);
+//		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
+//				0.9, false, false, true, false);
+//		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0), 1, 0, 0, 0, 4, 0.9,
+//				0.9, false, false, true, false);
+//		rigidBodies[4] = new RigidBody(1, new Vector2D(0, 0), new Vector2D(3, 1), new Vector2D(0,0), 1, 40, 0.1, 0, 4, 0.2,
+//				0.2, false, false, true, true);
 
-
-		balls = new Ball[0];
-//		balls[0] = new Ball(10, new Vector2D(-1.1, 4.5), new Vector2D(2, 0), new Vector2D(0, 0), 0.5, 0.7, 0.05);
+		balls = new Ball[1];
+		balls[0] = new Ball(1, new Vector2D(0.2, 1.7), new Vector2D(4, 0), new Vector2D(0, 0), 0.1, Math.PI / 4, -5, 0,
+				0.2, 0.7, 0.03, BallState.FLYING, null);
 //		balls[1] = new Ball(0.5, new Vector2D(1, 2.8), new Vector2D(0, -1), new Vector2D(0, 0), 1, 0.7, 0.05);
 
 		inclines = new Incline[0];
-//		inclines[0] = new Incline(new Vector2D(0, 0), 45, 10);
-//		inclines[0] = new Incline(new Vector2D(-3, 4), -45, 20);
+////		inclines[0] = new Incline(new Vector2D(0, 0), 0, 10); // PLANE
+//		inclines[0] = new Incline(new Vector2D(-3, 0), new Vector2D(-3, 3)); // ORTHOGONAL
+//		inclines[1] = new Incline(new Vector2D(3, 0), new Vector2D(3, 3)); // ORTHOGONAL
+//		inclines[2] = new Incline(new Vector2D(-3, 0), new Vector2D(3, 0)); // ORTHOGONAL
+//		inclines[3] = new Incline(new Vector2D(3, 3), new Vector2D(-3, 3)); // ORTHOGONAL
+////		inclines[0] = new Incline(new Vector2D(-3,3), new Vector2D(3,-3)); //VAR 1
+////		inclines[0] = new Incline(new Vector2D(-3,-3), new Vector2D(3,3)); //VAR 2 
+////		inclines[0] = new Incline(new Vector2D(3,-3), new Vector2D(-3,3)); //VAR 3
+////		inclines[0] = new Incline(new Vector2D(3,3), new Vector2D(-3,-3)); //VAR 4 
+
 	}
 
 	@Override
@@ -107,11 +115,11 @@ public class RigidBodiesPS extends PhysicalSystem {
 				rigidBodies[i].RbStartsFallingCheck(aed, inclines[j]);
 			}
 		}
-//		for (int i = 0; i < rigidBodies.length; i++) {
-//			for (int j = 0; j < balls.length; j++) {
-//				rigidBodies[i].RbCollisionWidthBallCheck(aed, balls[j]);
-//			}
-//		}
+		for (int i = 0; i < rigidBodies.length; i++) {
+			for (int j = 0; j < balls.length; j++) {
+				rigidBodies[i].RbCollisionWidthBallCheck(aed, balls[j]);
+			}
+		}
 
 		// Bouncing
 		for (int i = 0; i < balls.length; i++) {
@@ -123,33 +131,40 @@ public class RigidBodiesPS extends PhysicalSystem {
 //		// Rolling
 		for (int i = 0; i < balls.length; i++) {
 			for (int j = 0; j < inclines.length; j++) {
+				
 				balls[i].ballRollsOnInclineCheck(aed, inclines[j]);
 			}
 		}
-
-//		// Ball on incline Edge
+		// Ball stops rolling
 		for (int i = 0; i < balls.length; i++) {
 			for (int j = 0; j < inclines.length; j++) {
-				balls[i].ballOnInclineEdgeCheck(aed, inclines[j]);
+				balls[i].ballStopsRollingOnInclineCheck(aed, inclines[j]);
 			}
 		}
 
-		// Ball is Falling
+////		// Ball on incline Edge
 //		for (int i = 0; i < balls.length; i++) {
-//			for (int j = 0; j < inclines.length; j++)
-//				balls[i].ballFallsCheck(aed, inclines[j]);
+//			for (int j = 0; j < inclines.length; j++) {
+//				balls[i].ballOnInclineEdgeCheck(aed, inclines[j]);
+//			}
 //		}
-
-		// Collision Ball Ball
-		for (int i = 0; i < balls.length; i++) {
-			for (int j = balls.length - 1; j > i; j--)
-				balls[i].collisionBallBallCheck(aed, balls[j]);
-		}
-
-		// Ball stops rolling
-		for (int i = 0; i < balls.length; i++) {
-			balls[i].ballStopsRollingCheck(aed);
-		}
+//
+//		// Ball is Falling
+////		for (int i = 0; i < balls.length; i++) {
+////			for (int j = 0; j < inclines.length; j++)
+////				balls[i].ballFallsCheck(aed, inclines[j]);
+////		}
+//
+//		// Collision Ball Ball
+//		for (int i = 0; i < balls.length; i++) {
+//			for (int j = balls.length - 1; j > i; j--)
+//				balls[i].collisionBallBallCheck(aed, balls[j]);
+//		}
+//
+//		// Ball stops rolling
+//		for (int i = 0; i < balls.length; i++) {
+//			balls[i].ballStopsRollingCheck(aed);
+//		}
 	}
 
 	@Override

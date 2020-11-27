@@ -166,7 +166,8 @@ public class ballRollsOnInclineHandler implements Runnable {
 	}
 
 	private void rollPlane() {
-		ball.Fr.x = -ball.g * ball.m * ball.cr * signum(-ball.v.x);
+		System.out.println(ball.cr);
+		ball.Fr.x = ball.g * ball.m * ball.cr *(signum(ball.v.x));
 		ball.v.y = 0;
 		ball.a.set(ball.Fr.x / ball.m, 0);
 		if ((ball.ballDir == BallDirection.LEFT && ball.v.x >= 0)

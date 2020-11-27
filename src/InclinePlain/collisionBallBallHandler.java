@@ -3,7 +3,7 @@ package InclinePlain;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-import Helper.ObjectPosition;
+//import Helper.ObjectPosition;
 import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.components.VectorMath;
 import mechanics.rb2d.Impactpoint;
