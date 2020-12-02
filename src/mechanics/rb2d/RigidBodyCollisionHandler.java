@@ -45,9 +45,8 @@ public class RigidBodyCollisionHandler implements Runnable {
 			Vector2D r2m = VectorMath.sub(rb2.r, p);
 
 			double rot = VectorMath.angle(new Vector2D(0, 1), collisionEdge);
-			if(collisionEdge.x < 0) {
+			if(collisionEdge.x < 0)
 				rot = -rot;
-			}
 			System.out.println("Rot "+Math.toDegrees(rot));
 
 			// 2. r mit rot um 0,0 drehen
@@ -84,7 +83,7 @@ public class RigidBodyCollisionHandler implements Runnable {
 			Vector2D V2r_ = rotateVector2D(V2r, -rot);
 
 	
-			//Sto�koordinatensystem
+			//Stosskoordinatensystem
 //			rb1.v.set(V1r);
 //			rb2.v.set(V2r);
 //

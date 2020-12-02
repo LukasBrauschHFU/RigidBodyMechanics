@@ -54,7 +54,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public RigidBodiesPS() {
 		balls = new Ball[0];
 		inclines = new Incline[0];
-		test1();
+		test4_1();
 	}
 
 	public void test1() {

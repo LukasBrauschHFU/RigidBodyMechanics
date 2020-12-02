@@ -7,23 +7,11 @@ import static mechanics.rb2d.BodyState.*;
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.components.VectorMath;
-import de.physolator.usr.util.parameter.Parameter;
-import de.physolator.usr.util.parameter.Slider;
-
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Vector;
-
-import javax.lang.model.type.IntersectionType;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
 import InclinePlain.Ball;
-import InclinePlain.BallState;
 import InclinePlain.Incline;
 import InclinePlain.InclineVar;
-import InclinePlain.collisionBallBallHandler;
 
 public class RigidBody {
 
@@ -83,42 +71,6 @@ public class RigidBody {
 	public boolean visible = true;
 	public Incline[] inclineEdges;
 
-	public RigidBody(double m, double rx, double ry, double vx, double vy, double ax, double ay, double I, double phi,
-			double omega, double alpha, int cornerNumber, double edgeLength, boolean interaction, boolean translation,
-			boolean rotation) {
-		this.m = m;
-		this.r.set(rx, ry);
-		this.v.set(vx, vy);
-		this.a.set(ax, ay);
-		this.I = I;
-		this.phi = phi;
-		this.omega = omega;
-		this.alpha = alpha;
-		this.polygon = new Polygon(new Vector2D(rx, ry), cornerNumber, edgeLength);
-		this.interaction = interaction;
-		this.translation = translation;
-		this.rotation = rotation;
-		if (translation && rotation) {
-			state = BodyState.FLYING;
-		}
-	}
-
-	public RigidBody(double m, double rx, double ry, double vx, double vy, double ax, double ay, double I, double phi,
-			double omega, double alpha, int cornerNumber, double edgeLength) {
-		this.m = m;
-		this.r.set(rx, ry);
-		this.v.set(vx, vy);
-		this.a.set(ax, ay);
-		this.I = I;
-		this.phi = phi;
-		this.omega = omega;
-		this.alpha = alpha;
-		this.polygon = new Polygon(new Vector2D(rx, ry), cornerNumber, edgeLength);
-		this.state = FLYING;
-		this.interaction = true;
-		this.translation = true;
-		this.rotation = true;
-	}
 
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			int cornerNumber, double edgeLength, boolean gravity, boolean interaction, boolean translation,
@@ -131,6 +83,37 @@ public class RigidBody {
 		this.phi = Math.toRadians(phi);
 		this.omega = omega;
 		this.alpha = alpha;
+		Vertex[] vertices = new Vertex[cornerNumber];
+		if (cornerNumber == 3) {
+			double halfEdge = edgeLength / 2;
+			double ri = (Math.tan(Math.PI / 6) * edgeLength) / 2;
+			double h = sin(Math.PI / 3) * edgeLength;
+			double ax = r.x - halfEdge;
+			double ay = -ri;
+			double bx = ax + edgeLength;
+			double by = ay;
+			double cx = 0;
+			double cy = h - ri;
+			System.out.println(bx - ax);
+			vertices[0] = new Vertex(ax, ay);
+			vertices[1] = new Vertex(bx, by);
+			vertices[2] = new Vertex(cx, cy);
+		}
+		if (cornerNumber == 4) {
+			double halfEdge = edgeLength / 2;
+			double ay = r.y - r.y - halfEdge;
+			double ax = r.x - r.x - halfEdge;
+			double bx = ax + edgeLength;
+			double by = ay;
+			double cx = bx;
+			double cy = by + edgeLength;
+			double dx = ax;
+			double dy = cy;
+			vertices[0] = new Vertex(ax, ay);
+			vertices[1] = new Vertex(bx, by);
+			vertices[2] = new Vertex(cx, cy);
+			vertices[3] = new Vertex(dx, dy);
+		}
 		this.polygon = new Polygon(r, cornerNumber, edgeLength);
 		this.gravity = gravity;
 		this.interaction = interaction;
@@ -161,24 +144,20 @@ public class RigidBody {
 		for(int i = 0; i< cornerNumber; i++)
 			inclineEdges[i] = new Incline(new Vector2D(0,0), new Vector2D(0,0));
 	}
-	
-
+		
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
-			int cornerNumber, double edgeLength) {
+			Polygon shape) {
 		this.m = m;
-		this.r.set(r.x, r.y);
-		this.v.set(v.x, v.y);
-		this.a.set(a.x, a.y);
+		this.r = r;
+		this.v = v;
+		this.a = a;
 		this.I = I;
 		this.phi = phi;
 		this.omega = omega;
 		this.alpha = alpha;
-		this.polygon = new Polygon(r, cornerNumber, edgeLength);
+		this.polygon = shape;
+		this.color = 0;
 		this.state = FLYING;
-		this.interaction = false;
-		this.translation = false;
-		this.rotation = false;
-
 	}
 
 	public void f(double t, double dt) {
