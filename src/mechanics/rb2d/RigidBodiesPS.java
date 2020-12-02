@@ -61,8 +61,8 @@ public class RigidBodiesPS extends PhysicalSystem {
 		rigidBodies = new RigidBody[2];
 		rigidBodies[0] = new RigidBody(1, new Vector2D(2, 0), new Vector2D(-1, 0), new Vector2D(0, 0), 0.1, 45, 0, 0, 4,
 				1, 1, false, false, true, true);
-		rigidBodies[1] = new RigidBody(10, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0), 1, 10, 0, 0, 4, 1,
-				1, false, false, true, true);
+		rigidBodies[1] = new RigidBody(10, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0), 1, 10, 0, 0, 4,
+				1, 1, false, false, true, true);
 	}
 
 	public void test2() {
@@ -81,58 +81,65 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 	public void test3() {
 		rigidBodies = new RigidBody[5];
-		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 10, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
+		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 10, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
 		rigidBodies[4] = new RigidBody(1, new Vector2D(0, 0), new Vector2D(1, 0), new Vector2D(0, 0), 0.1, 45, 0, 0, 4,
 				0.2, 0.2, false, false, true, true);
 	}
-	
+
 	public void test4() {
 		rigidBodies = new RigidBody[6];
-		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 10, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[4] = new RigidBody(1, new Vector2D(-0.2, 0), new Vector2D(0.1, 0), new Vector2D(0, 0), 0.1, 45, 0, 0, 4,
-				0.2, 0.2, false, false, true, true);
-		rigidBodies[5] = new RigidBody(1, new Vector2D(0.2, 0), new Vector2D(0.1, 0.1), new Vector2D(0, 0), 0.1, 10, 0, 0, 4,
-				0.2, 0.2, false, false, true, true);
+		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 10, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[4] = new RigidBody(1, new Vector2D(-0.2, 0), new Vector2D(0.1, 0), new Vector2D(0, 0), 0.1, 45, 0,
+				0, 4, 0.2, 0.2, false, false, true, true);
+		rigidBodies[5] = new RigidBody(1, new Vector2D(0.2, 0), new Vector2D(0.1, 0.1), new Vector2D(0, 0), 0.1, 10, 0,
+				0, 4, 0.2, 0.2, false, false, true, true);
 	}
-	
+
 	public void test4_1() {
 		rigidBodies = new RigidBody[7];
-		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 10, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0, 4,
-				0.9, 0.9, false, false, true, true);
-		rigidBodies[4] = new RigidBody(1, new Vector2D(-0.2, 0), new Vector2D(0.4, 0), new Vector2D(0, 0), 0.1, 45, 0, 0, 4,
-				0.2, 0.2, false, false, true, true);
-		rigidBodies[5] = new RigidBody(1, new Vector2D(0.2, 0), new Vector2D(0.3, 0.1), new Vector2D(0, 0), 0.1, 10, 0, 0, 4,
-				0.2, 0.2, false, false, true, true);
-		rigidBodies[6] = new RigidBody(1, new Vector2D(0.2, -0.3), new Vector2D(-0.3, 0.1), new Vector2D(0, 0), 0.1, 10, 0, 0, 4,
-				0.2, 0.2, false, false, true, true);
+		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 10, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(1, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, 4, 0.9, 0.9, false, false, true, true);
+		rigidBodies[4] = new RigidBody(1, new Vector2D(-0.2, 0), new Vector2D(0.4, 0), new Vector2D(0, 0), 0.1, 45, 0,
+				0, 4, 0.2, 0.2, false, false, true, true);
+		rigidBodies[5] = new RigidBody(1, new Vector2D(0.2, 0), new Vector2D(0.3, 0.1), new Vector2D(0, 0), 0.1, 10, 0,
+				0, 4, 0.2, 0.2, false, false, true, true);
+		rigidBodies[6] = new RigidBody(1, new Vector2D(0.2, -0.3), new Vector2D(-0.3, 0.1), new Vector2D(0, 0), 0.1, 10,
+				0, 0, 4, 0.2, 0.2, false, false, true, true);
 	}
-	
+
 	public void test5() {
 		rigidBodies = new RigidBody[2];
-		rigidBodies[0] = new RigidBody(1, new Vector2D(2, 2), new Vector2D(-1, -2), new Vector2D(0, 0), 0.5, 45, 0.3, 0, 4,
-				2, 2, false, false, true, true);
-		rigidBodies[1] = new RigidBody(1, new Vector2D(-2, 1), new Vector2D(1, 0), new Vector2D(0, 0), 0.5, 10, 0.4, 0, 4,
-				2, 2, false, false, true, true);
+		rigidBodies[0] = new RigidBody(1, new Vector2D(2, 2), new Vector2D(-1, -2), new Vector2D(0, 0), 0.5, 45, 0.3, 0,
+				4, 2, 2, false, false, true, true);
+		rigidBodies[1] = new RigidBody(1, new Vector2D(-2, 1), new Vector2D(1, 0), new Vector2D(0, 0), 0.5, 10, 0.4, 0,
+				4, 2, 2, false, false, true, true);
+	}
+
+	public void test6() {
+		rigidBodies = new RigidBody[1];
+		rigidBodies[0] = new RigidBody(1, new Vector2D(-5, 1), new Vector2D(5, 0), new Vector2D(0, 0), 0.5, Math.PI / 3,
+				0, 0, new Polygon(
+						new Vertex[] { new Vertex(-2, -2), new Vertex(-2, 2), new Vertex(2, 2), new Vertex(2, -2) }));
 	}
 
 	@Override
@@ -184,7 +191,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 //		// Rolling
 		for (int i = 0; i < balls.length; i++) {
 			for (int j = 0; j < inclines.length; j++) {
-				
+
 				balls[i].ballRollsOnInclineCheck(aed, inclines[j]);
 			}
 		}

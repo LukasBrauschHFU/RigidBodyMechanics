@@ -71,7 +71,6 @@ public class RigidBody {
 	public boolean visible = true;
 	public Incline[] inclineEdges;
 
-
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			int cornerNumber, double edgeLength, boolean gravity, boolean interaction, boolean translation,
 			boolean rotation) {
@@ -94,10 +93,9 @@ public class RigidBody {
 			double by = ay;
 			double cx = 0;
 			double cy = h - ri;
-			System.out.println(bx - ax);
-			vertices[0] = new Vertex(ax, ay);
-			vertices[1] = new Vertex(bx, by);
-			vertices[2] = new Vertex(cx, cy);
+			this.polygon = new Polygon(
+					new Vertex[] { new Vertex(-ax, -ay), new Vertex(-bx, -by), new Vertex(-cx, -cy) });
+
 		}
 		if (cornerNumber == 4) {
 			double halfEdge = edgeLength / 2;
@@ -109,12 +107,9 @@ public class RigidBody {
 			double cy = by + edgeLength;
 			double dx = ax;
 			double dy = cy;
-			vertices[0] = new Vertex(ax, ay);
-			vertices[1] = new Vertex(bx, by);
-			vertices[2] = new Vertex(cx, cy);
-			vertices[3] = new Vertex(dx, dy);
+			this.polygon = new Polygon(new Vertex[] { new Vertex(-ax, -ay), new Vertex(-bx, -by), new Vertex(-cx, -cy),
+					new Vertex(-dx, -dy) });
 		}
-		this.polygon = new Polygon(r, cornerNumber, edgeLength);
 		this.gravity = gravity;
 		this.interaction = interaction;
 		this.translation = translation;
@@ -132,7 +127,22 @@ public class RigidBody {
 		this.phi = Math.toRadians(phi);
 		this.omega = omega;
 		this.alpha = alpha;
-		this.polygon = new Polygon(r, cornerNumber, edgeLength, edgeWidth);
+		Vertex[] vertices = new Vertex[cornerNumber];
+		System.out.println(vertices.length);
+		if (cornerNumber == 4) {
+			double halfWidth = edgeWidth / 2;
+			double halfLength = edgeLength / 2;
+			double ax = r.x - r.x - halfLength;
+			double ay = r.y - r.y - halfWidth;
+			double bx = ax + edgeLength;
+			double by = ay;
+			double cx = bx;
+			double cy = by + edgeWidth;
+			double dx = ax;
+			double dy = cy;
+			this.polygon = new Polygon(new Vertex[] { new Vertex(-ax, -ay), new Vertex(-bx, -by), new Vertex(-cx, -cy),
+					new Vertex(-dx, -dy) });
+		}
 		this.gravity = gravity;
 		this.interaction = interaction;
 		this.translation = translation;
@@ -141,10 +151,10 @@ public class RigidBody {
 			this.state = BodyState.FLYING;
 		}
 		this.inclineEdges = new Incline[cornerNumber];
-		for(int i = 0; i< cornerNumber; i++)
-			inclineEdges[i] = new Incline(new Vector2D(0,0), new Vector2D(0,0));
+		for (int i = 0; i < cornerNumber; i++)
+			inclineEdges[i] = new Incline(new Vector2D(0, 0), new Vector2D(0, 0));
 	}
-		
+
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			Polygon shape) {
 		this.m = m;
@@ -156,9 +166,11 @@ public class RigidBody {
 		this.omega = omega;
 		this.alpha = alpha;
 		this.polygon = shape;
-		this.color = 0;
-		this.state = FLYING;
+		this.state = BodyState.FLYING;
+		
+		System.out.println(this.m);
 	}
+	
 
 	public void f(double t, double dt) {
 		if (!translation) {
@@ -343,11 +355,9 @@ public class RigidBody {
 		int edgeNumber = 0;
 		Vector2D collisionPoint = null;
 		System.out.println();
-		
-		
 
 		for (int i = 0; i < edges.length; i++) {
-			
+
 			System.out.println();
 			System.out.println(edges[i].x1);
 			Vector2D edgeStart = new Vector2D(edges[i].x1, edges[i].y1);
@@ -356,10 +366,7 @@ public class RigidBody {
 			inclineEdges[i] = new Incline(edgeStart, edgeEnd);
 
 			ball.collisionWidthInclineCheck(aed, inclineEdges[i]);
-			
-			
-			
-			
+
 //			System.out.println("Inncline "+i+ ": START " + inclineEdges[i].start + "  END " + inclineEdges[i].end);
 //			
 //			System.out.println("Edge " + i + ": START " + edgeStart + "  END " + edgeEnd);
