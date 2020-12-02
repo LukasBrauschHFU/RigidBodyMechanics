@@ -70,6 +70,13 @@ public class RigidBody {
 
 	public boolean visible = true;
 	public Incline[] inclineEdges;
+	
+	@V(unit = "kg*m/s")
+	public double E_kin;
+	@V(unit = "kg*m/s")
+	public double E_rot;
+	@V(unit = "kg*m/s")
+	public double E_rb;
 
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			int cornerNumber, double edgeLength, boolean gravity, boolean interaction, boolean translation,
@@ -190,6 +197,10 @@ public class RigidBody {
 			omega = 0;
 			alpha = 0;
 		}
+		
+		E_kin = 0.5 * m * v.abs() * v.abs();
+		E_rot = 0.5 * I * omega * omega;
+		E_rb = E_kin + E_rot;
 
 	}
 

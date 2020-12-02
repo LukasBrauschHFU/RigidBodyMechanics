@@ -18,6 +18,9 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public RigidBody[] rigidBodies;
 	public Ball[] balls;
 	public Incline[] inclines;
+	
+	@V(unit = "kg*m/s")
+	public double E_gesamt;
 
 	public void initGraphicsComponents(GraphicsComponents g, Structure s, Recorder r, SimulationParameters sp) {
 		MechanicsTVG mTVG = new MechanicsTVG(this, s, r);
@@ -144,12 +147,12 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 	@Override
 	public void f(double t, double dt) {
+		double E_gesamt_temp = 0;
 		for (RigidBody rb : rigidBodies) {
 			rb.f(t, dt);
+			E_gesamt_temp += rb.E_rb;
 		}
-		for (Ball b : balls) {
-			b.f(t, dt);
-		}
+		E_gesamt = E_gesamt_temp;
 	}
 
 	@Override
