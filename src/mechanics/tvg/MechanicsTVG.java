@@ -2,15 +2,12 @@ package mechanics.tvg;
 
 import static java.lang.Math.*;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import mechanics.rb2d.RigidBody;
 import de.physolator.usr.*;
 import de.physolator.usr.components.*;
 import de.physolator.usr.tvg.*;
-import de.physolator.usr.tvg.events.EventHandler;
-import de.physolator.usr.tvg.events.KeyEventTable;
 import de.physolator.usr.util.*;
 import de.physolator.usr.util.parameter.*;
 import static de.physolator.usr.components.VectorMath.*;
