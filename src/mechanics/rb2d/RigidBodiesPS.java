@@ -57,7 +57,8 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public RigidBodiesPS() {
 		balls = new Ball[0];
 		inclines = new Incline[0];
-		test4_1();
+		//test4_1();
+		test7();
 	}
 
 	public void test1() {
@@ -139,6 +140,13 @@ public class RigidBodiesPS extends PhysicalSystem {
 	}
 
 	public void test6() {
+		rigidBodies = new RigidBody[1];
+		rigidBodies[0] = new RigidBody(1, new Vector2D(-5, 1), new Vector2D(5, 0), new Vector2D(0, 0), 0.5, Math.PI / 3,
+				0, 0, new Polygon(
+						new Vertex[] { new Vertex(-2, -2), new Vertex(-2, 2), new Vertex(2, 2), new Vertex(2, -2) }));
+	}
+	
+	public void test7() {
 		rigidBodies = new RigidBody[1];
 		rigidBodies[0] = new RigidBody(1, new Vector2D(-5, 1), new Vector2D(5, 0), new Vector2D(0, 0), 0.5, Math.PI / 3,
 				0, 0, new Polygon(
