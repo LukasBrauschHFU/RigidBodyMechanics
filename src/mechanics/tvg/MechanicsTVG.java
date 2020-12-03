@@ -83,8 +83,7 @@ public class MechanicsTVG extends TVG {
 		double radius = subDoubleValue(se, "radius", 0);
 		pms.add(new PM2D(se.getObject(), sub(r, "x"), sub(r, "y"), sub(v, "x"), sub(v, "y"), sub(a, "x"), sub(a, "y"),
 				sub(Fr, "x"), sub(Fr, "y"), sub(Fn, "x"), sub(Fn, "y"), sub(Fg, "x"), sub(Fg, "y"), sub(Fh, "x"),
-				sub(Fh, "y"), sub(Fres, "x"), sub(Fres, "y"), m, radius,
-				se.getTotalName()));
+				sub(Fh, "y"), sub(Fres, "x"), sub(Fres, "y"), m, radius, se.getTotalName()));
 	}
 
 	public void initSP2D(StructureElement se) {
@@ -107,9 +106,9 @@ public class MechanicsTVG extends TVG {
 				se.getTotalName()));
 	}
 
-	public void addPointMass(String x, String y, String vx, String vy, String ax, String ay, String Frx,
-			String Fry, String Fnx, String Fny, String Fgx, String Fgy, String Fhx, String Fhy, String Fresx,
-			String Fresy, String name) {
+	public void addPointMass(String x, String y, String vx, String vy, String ax, String ay, String Frx, String Fry,
+			String Fnx, String Fny, String Fgx, String Fgy, String Fhx, String Fhy, String Fresx, String Fresy,
+			String name) {
 		pms.add(new PM2D(structure, structure.getStructureElement(x), structure.getStructureElement(y),
 				structure.getStructureElement(vx), structure.getStructureElement(vy), structure.getStructureElement(ax),
 				structure.getStructureElement(ay), structure.getStructureElement(Frx),
@@ -520,7 +519,8 @@ public class MechanicsTVG extends TVG {
 			if (showFn) {
 				Vector2D a = new Vector2D(recorder.getDouble(p.Fnx, c), recorder.getDouble(p.Fny, c));
 				drawArrow(r, a, FnScaling, ArrowType.FORCE);
-//				drawText(r.x - getLength(r, FnScaling), r.y - getLength(r, FnScaling), "Fn");
+				// drawText(r.x - getLength(r, FnScaling), r.y - getLength(r,
+				// FnScaling), "Fn");
 			}
 			if (showFg) {
 				Vector2D a = new Vector2D(recorder.getDouble(p.Fgx, c), recorder.getDouble(p.Fgy, c));
@@ -534,7 +534,6 @@ public class MechanicsTVG extends TVG {
 				Vector2D a = new Vector2D(recorder.getDouble(p.Fresx, c), recorder.getDouble(p.Fresy, c));
 				drawArrow(r, a, FresScaling, ArrowType.FORCE);
 			}
-			
 
 			style.fillColor = standardFillColor;
 			drawPointMass(x, y, radius, p.object);
@@ -545,7 +544,4 @@ public class MechanicsTVG extends TVG {
 		}
 		endClipping();
 	}
-	
-
-
 }

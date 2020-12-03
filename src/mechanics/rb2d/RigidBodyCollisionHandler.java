@@ -40,7 +40,7 @@ public class RigidBodyCollisionHandler implements Runnable {
 		// 2. Berechnung der neuen Größen im Stoßkoordinatensystem
 		double a1 = -r1mr.y;
 		double a2 = -r2mr.y;
-		
+
 		double Fx = impulseFx(v1r.x, v2r.x, a1, a2);
 
 		Vector2D V1r = new Vector2D(v1r.x - (Fx / rb1.m), v1r.y);
@@ -49,12 +49,12 @@ public class RigidBodyCollisionHandler implements Runnable {
 		double Omega1 = rb1.omega + ((a1 * Fx) / rb1.I);
 		double Omega2 = rb2.omega - ((a2 * Fx) / rb2.I);
 
-		// 3.  Ruecktransformation ins Inertialsystem
+		// 3. Ruecktransformation ins Inertialsystem
 		Vector2D V1r_ = rotateVector2D(V1r, -rot);
 		Vector2D V2r_ = rotateVector2D(V2r, -rot);
 
-		//4. Setzen der neuen Werte
-		
+		// 4. Setzen der neuen Werte
+
 		// Stosskoordinatensystem
 		// rb1.v.set(V1r);
 		// rb2.v.set(V2r);

@@ -7,7 +7,7 @@ import de.physolator.usr.components.Vector2D;
 public class RigidBodiesPS extends PhysicalSystem {
 
 	public RigidBody[] rigidBodies;
-	
+
 	@V(unit = "kg*m/s")
 	public double E_gesamt;
 
@@ -17,8 +17,10 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 	public void test1() {
 		rigidBodies = new RigidBody[2];
-		rigidBodies[0] = new RigidBody(1, new Vector2D(-1,0), new Vector2D(1,0), new Vector2D(0,0), 0.5, 10, 0, 0, new Polygon());
-		rigidBodies[1] = new RigidBody(1, new Vector2D(1,0), new Vector2D(-0.5,0), new Vector2D(0,0), 0.5, 0, 0, 0, new Polygon());
+		rigidBodies[0] = new RigidBody(1, new Vector2D(-1, 0), new Vector2D(1, 0), new Vector2D(0, 0), 0.5, 10, 0, 0,
+				new Polygon());
+		rigidBodies[1] = new RigidBody(1, new Vector2D(1, 0), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.5, 0, 0, 0,
+				new Polygon());
 	}
 
 	@Override
@@ -44,7 +46,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public void initSimulationParameters(SimulationParameters s) {
 		s.fastMotionFactor = 1;
 	}
-	
+
 	@Override
 	public void initGraphicsComponents(GraphicsComponents g, Structure s, Recorder r, SimulationParameters sp) {
 		MechanicsTVG mTVG = new MechanicsTVG(this, s, r);

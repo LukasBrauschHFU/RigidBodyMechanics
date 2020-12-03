@@ -34,7 +34,7 @@ public class RigidBody {
 	public double E_rot;
 	@V(unit = "kg*m/s")
 	public double E_rb;
-	
+
 	@Ignore
 	public int color;
 	@Ignore
@@ -57,7 +57,6 @@ public class RigidBody {
 		this.polygon = shape;
 		this.state = BodyState.FLYING;
 	}
-	
 
 	public void f(double t, double dt) {
 		E_kin = 0.5 * m * v.abs() * v.abs();
@@ -139,7 +138,7 @@ public class RigidBody {
 		return edges;
 	}
 
-	private Point2D.Double[] verticesToInertialSystem(Vertex[] vertices, double phi, Vector2D translation) {
+	private Point2D.Double[] verticesToInertialSystem(Vector2D[] vertices, double phi, Vector2D translation) {
 		Point2D.Double[] newVertices = new Point2D.Double[vertices.length];
 		for (int i = 0; i < vertices.length; i++) {
 			newVertices[i] = vertexToInertialSystem(vertices[i], phi, translation);
@@ -147,9 +146,9 @@ public class RigidBody {
 		return newVertices;
 	}
 
-	private Point2D.Double vertexToInertialSystem(Vertex vertex, double phi, Vector2D translation) {
-		double x = translation.x + cos(phi) * vertex.position.x + sin(phi) * vertex.position.y;
-		double y = translation.y + sin(phi) * vertex.position.x - cos(phi) * vertex.position.y;
+	private Point2D.Double vertexToInertialSystem(Vector2D vertex, double phi, Vector2D translation) {
+		double x = translation.x + cos(phi) * vertex.x + sin(phi) * vertex.y;
+		double y = translation.y + sin(phi) * vertex.x - cos(phi) * vertex.y;
 		return new Point2D.Double(x, y);
 	}
 
