@@ -5,8 +5,6 @@ import static java.lang.Math.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import InclinePlain.Ball;
-import InclinePlain.Incline;
 import mechanics.rb2d.RigidBody;
 import de.physolator.usr.*;
 import de.physolator.usr.components.*;
@@ -47,12 +45,6 @@ public class MechanicsTVG extends TVG {
 		for (StructureElement s : structure.getSubstructures()) {
 			if (s.getType().isAssignableFrom(RigidBody.class)) {
 				dc2dl.add(new RigidBodyDC2D(this, s.getName(), (RigidBody) s.getObject()));
-			}
-			if (s.getType().isAssignableFrom(Ball.class)) {
-				dc2dl.add(new BallDC2D(this, s.getName(), (Ball) s.getObject()));
-			}
-			if (s.getType().isAssignableFrom(Incline.class)) {
-				dc2dl.add(new InclineDC2D(this, s.getName(), (Incline) s.getObject()));
 			}
 		}
 	}

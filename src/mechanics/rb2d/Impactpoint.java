@@ -1,9 +1,5 @@
 package mechanics.rb2d;
 
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-
-import InclinePlain.Incline;
 import de.physolator.usr.components.Vector2D;
 
 public class Impactpoint {
@@ -17,9 +13,5 @@ public class Impactpoint {
 	
 	public Impactpoint(Vector2D impactPoint) {
 		this.impactPoint = impactPoint;
-	}
-
-	public Impactpoint(Vector2D point, Incline tangente) {
-		// TODO Auto-generated constructor stub
 	}
 }
