@@ -4,6 +4,7 @@ import mechanics.rb2d.shapes.CircleShape;
 import mechanics.rb2d.shapes.PolygonShape;
 import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.tvg.MechanicsTVG;
+import sun.security.provider.certpath.Vertex;
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
 
@@ -15,7 +16,44 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test3();
+		test4();
+	}
+
+	private void test5() {
+		rigidBodies = new RigidBody[6];
+		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1.1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 5, 0, 0,
+				new PolygonShape());
+		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(1.1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
+				new PolygonShape());
+		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1.1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
+				new PolygonShape());
+		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1.1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
+				new PolygonShape());
+		rigidBodies[4] = new RigidBody(1, new Vector2D(0.4, -0.2), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.25, 0, 0, 0,
+				new PolygonShape(new Vector2D[] {new Vector2D(-0.1, 0.1), new Vector2D(0.1, 0.1), new Vector2D(0.1, -0.1),
+						new Vector2D(-0.1, -0.1)}));
+		rigidBodies[5] = new RigidBody(1, new Vector2D(-0.4, 0.2), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.25, 0, 0, 0,
+				new PolygonShape(new Vector2D[] {new Vector2D(-0.1, 0.1), new Vector2D(0.1, 0.1), new Vector2D(0.1, -0.1),
+						new Vector2D(-0.1, -0.1)}));
+		
+	}
+
+	private void test4() {
+		rigidBodies = new RigidBody[6];
+		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1.1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 5, 0, 0,
+				new PolygonShape());
+		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(1.1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
+				new PolygonShape());
+		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1.1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
+				new PolygonShape());
+		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1.1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
+				new PolygonShape());
+		rigidBodies[4] = new RigidBody(1, new Vector2D(0.4, -0.2), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.25, 0, 0, 0,
+				new PolygonShape(new Vector2D[] { new Vector2D(0.1, -0.1), new Vector2D(-0.1, -0.1), new Vector2D(0, 0.2) }));
+		rigidBodies[5] = new RigidBody(1, new Vector2D(-0.4, 0.2), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.25, 0, 0, 0,
+				new PolygonShape(new Vector2D[] { new Vector2D(-0.1, 0.1), new Vector2D(0.1, 0.1), new Vector2D(0.1, -0.1),
+						new Vector2D(-0.1, -0.1), new Vector2D(-0.2, -0.2), new Vector2D(-0.3, -0.3) }));
+		
 	}
 
 	public void test1() {
@@ -78,7 +116,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	@Override
 	public void initGraphicsComponents(GraphicsComponents g, Structure s, Recorder r, SimulationParameters sp) {
 		MechanicsTVG mTVG = new MechanicsTVG(this, s, r);
-		mTVG.geometry.setUserArea(-2, 8, -2, 5);
+		mTVG.geometry.setUserArea(-2, 2, -2, 2);
 		mTVG.velocityScaling = 100;
 		mTVG.accelerationScaling = 10;
 		mTVG.angularVelocityScaling = 0.2;
