@@ -83,15 +83,10 @@ public class RigidBodyCollisionHandler implements Runnable {
 
 	private double impulseFx(double v1x, double v2x, double a1, double a2) {
 		double a1omega1 = a1 * rb1.omega;
-		System.out.println("a1omega1 " + a1omega1);
 		double a2omega2 = a2 * rb2.omega;
-		System.out.println("a1omega2 " + a2omega2);
 		double zaehler = v1x - v2x - a1omega1 + a2omega2;
 		double nenner = (1 / rb1.m) + (1 / rb2.m) + (a1 * a1 / rb1.I) + (a2 * a2 / rb2.I);
-		System.out.println("Z�hler " + zaehler);
-		System.out.println("nenner " + nenner);
 		double Fx = (1 + k) * (zaehler / nenner);
-		System.out.println("Fx " + Fx);
 		return Fx;
 	}
 }

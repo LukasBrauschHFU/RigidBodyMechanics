@@ -1,22 +1,25 @@
-package mechanics.rb2d;
+package mechanics.rb2d.shapes;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 import de.physolator.usr.components.Vector2D;
-import de.physolator.usr.tvg.*;
+import de.physolator.usr.tvg.Shape;
+import de.physolator.usr.tvg.TVG;
 
-import static java.lang.Math.*;
-
-public class RigidBodyShape {
+public class PolygonShape extends AbstractShape{
 	public Vector2D[] vertices;
 
-	public RigidBodyShape() {
+	public PolygonShape() {
 		this(new Vector2D[] { new Vector2D(-0.5, 0.5), new Vector2D(0.5, 0.5), new Vector2D(0.5, -0.5),
 				new Vector2D(-0.5, -0.5) });
 	}
 
-	public RigidBodyShape(Vector2D[] vertexList) {
+	public PolygonShape(Vector2D[] vertexList) {
 		vertices = vertexList;
 	}
 
+	@Override
 	public void paint(TVG tvg, Vector2D position, double phi) {
 		tvg.beginShape(Shape.POLYGON_LINE_LOOP);
 		for (Vector2D e : vertices)
