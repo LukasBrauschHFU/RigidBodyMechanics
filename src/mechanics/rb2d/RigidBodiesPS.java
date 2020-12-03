@@ -18,9 +18,9 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public void test1() {
 		rigidBodies = new RigidBody[2];
 		rigidBodies[0] = new RigidBody(1, new Vector2D(-1, 0), new Vector2D(1, 0), new Vector2D(0, 0), 0.5, 10, 0, 0,
-				new Polygon());
+				new RigidBodyShape());
 		rigidBodies[1] = new RigidBody(1, new Vector2D(1, 0), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.5, 0, 0, 0,
-				new Polygon());
+				new RigidBodyShape());
 	}
 
 	@Override

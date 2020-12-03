@@ -5,15 +5,15 @@ import de.physolator.usr.tvg.*;
 
 import static java.lang.Math.*;
 
-public class Polygon {
+public class RigidBodyShape {
 	public Vector2D[] vertices;
 
-	public Polygon() {
+	public RigidBodyShape() {
 		this(new Vector2D[] { new Vector2D(-0.5, 0.5), new Vector2D(0.5, 0.5), new Vector2D(0.5, -0.5),
 				new Vector2D(-0.5, -0.5) });
 	}
 
-	public Polygon(Vector2D[] vertexList) {
+	public RigidBodyShape(Vector2D[] vertexList) {
 		vertices = vertexList;
 	}
 

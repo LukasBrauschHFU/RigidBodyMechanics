@@ -38,14 +38,14 @@ public class RigidBody {
 	@Ignore
 	public int color;
 	@Ignore
-	public Polygon polygon;
+	public RigidBodyShape polygon;
 	@Ignore
 	public BodyState state;
 	@Ignore
 	public boolean visible = true;
 
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
-			Polygon shape) {
+			RigidBodyShape shape) {
 		this.m = m;
 		this.r = r;
 		this.v = v;
