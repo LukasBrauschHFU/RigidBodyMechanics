@@ -20,40 +20,27 @@ public class RigidBodyCollisionHandler implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println();
-		// System.out.println("Collision counter: " + rb1.collisionCounter);
-
 		Vector2D p = ip.impactPoint;
 		Vector2D collisionEdge = VectorMath.normalize(ip.impactEdge);
 
-		System.out.println("Collition edge: " + collisionEdge);
-
-		// Transformation
-		// 1. r -p
+		// 1. Transformation in das Stoßkoordinatensystem
 		Vector2D r1m = VectorMath.sub(rb1.r, p);
 		Vector2D r2m = VectorMath.sub(rb2.r, p);
 
 		double rot = VectorMath.angle(new Vector2D(0, 1), collisionEdge);
 		if (collisionEdge.x < 0)
 			rot = -rot;
-		System.out.println("Rot " + Math.toDegrees(rot));
 
-		// 2. r mit rot um 0,0 drehen
 		Vector2D r1mr = rotateVector2D(r1m, rot);
 		Vector2D r2mr = rotateVector2D(r2m, rot);
 
-		collisionEdge.set(rotateVector2D(collisionEdge, rot));
-
-		// 3. v um rot drehen
 		Vector2D v1r = rotateVector2D(rb1.v, rot);
 		Vector2D v2r = rotateVector2D(rb2.v, rot);
 
-		// 5. Berechnung
+		// 2. Berechnung der neuen Größen im Stoßkoordinatensystem
 		double a1 = -r1mr.y;
 		double a2 = -r2mr.y;
-		System.out.println("a1 " + a1);
-		System.out.println("a2 " + a2);
-
+		
 		double Fx = impulseFx(v1r.x, v2r.x, a1, a2);
 
 		Vector2D V1r = new Vector2D(v1r.x - (Fx / rb1.m), v1r.y);
@@ -62,11 +49,12 @@ public class RigidBodyCollisionHandler implements Runnable {
 		double Omega1 = rb1.omega + ((a1 * Fx) / rb1.I);
 		double Omega2 = rb2.omega - ((a2 * Fx) / rb2.I);
 
-		// Ruecktransformation
-		// 7. v um -rot drehen
+		// 3.  Ruecktransformation ins Inertialsystem
 		Vector2D V1r_ = rotateVector2D(V1r, -rot);
 		Vector2D V2r_ = rotateVector2D(V2r, -rot);
 
+		//4. Setzen der neuen Werte
+		
 		// Stosskoordinatensystem
 		// rb1.v.set(V1r);
 		// rb2.v.set(V2r);
