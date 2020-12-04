@@ -4,6 +4,10 @@ import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
 import mechanics.rb2d.shapes.Rectangle;
 import mechanics.tvg.MechanicsTVG;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
 
@@ -15,7 +19,33 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test6();
+		test7();
+	}
+
+	private void test7() {
+		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
+		
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -6), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, -0.01, 0, 0, new Rectangle(10.5,1)));
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, 6), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0.01, 0, 0, new Rectangle(10.5,1)));
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(-6, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, Math.PI/2-0.01, 0, 0, new Rectangle(10.5,1)));
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(6, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, Math.PI/2+0.01, 0, 0, new Rectangle(10.5,1)));
+		
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, Math.PI/8, 0, 0, new Rectangle(2,1)));
+		
+		rigidBodies.add(new RigidBody(1, new Vector2D(-3.5, 0.5), new Vector2D(1, -0.5), new Vector2D(0, 0), 0.4, Math.PI/2, 0, 0, new Rectangle()));
+		
+		
+		rigidBodies.add(new RigidBody(1, new Vector2D(2.5, -1), new Vector2D(-1, 0), new Vector2D(0, 0), 0.4, 10, 0, 0,
+				new Circle(1)));
+		rigidBodies.add(new RigidBody(1, new Vector2D(-2.3, -1), new Vector2D(-1, -4), new Vector2D(0, 0), 0.4, 10, 0, 0,
+				new Circle(1)));
+		
+		rigidBodies.add(new RigidBody(2, new Vector2D(3, 3), new Vector2D(-0.5, 0), new Vector2D(0, 0), 1, 0, 0, 0,
+				new Polygon(new Vector2D[] {new Vector2D(-1.5, 0.4), new Vector2D(-1, -1), new Vector2D(1.5, 0.3)})));
+		
+		
+		this.rigidBodies = new RigidBody[rigidBodies.size()];
+		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
 	}
 
 	private void test6() {

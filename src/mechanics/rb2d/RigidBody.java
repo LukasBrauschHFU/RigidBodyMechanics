@@ -6,6 +6,7 @@ import static java.lang.Math.sin;
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.components.VectorMath;
+import de.physolator.usr.util.Color;
 import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
@@ -41,7 +42,7 @@ public class RigidBody {
 	public double E_rb;
 
 	@Ignore
-	public int color;
+	public int color = Color.make(0.5, 0.5, 0.5);
 	@Ignore
 	public AbstractShape shape;
 	@Ignore
