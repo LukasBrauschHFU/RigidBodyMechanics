@@ -7,15 +7,15 @@ import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.tvg.Shape;
 import de.physolator.usr.tvg.TVG;
 
-public class PolygonShape extends AbstractShape{
+public class Polygon extends AbstractShape{
 	public Vector2D[] vertices;
 
-	public PolygonShape() {
+	public Polygon() {
 		this(new Vector2D[] { new Vector2D(-0.5, 0.5), new Vector2D(0.5, 0.5), new Vector2D(0.5, -0.5),
 				new Vector2D(-0.5, -0.5) });
 	}
 
-	public PolygonShape(Vector2D[] vertexList) {
+	public Polygon(Vector2D[] vertexList) {
 		vertices = vertexList;
 	}
 

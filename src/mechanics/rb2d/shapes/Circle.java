@@ -7,11 +7,11 @@ import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.tvg.Shape;
 import de.physolator.usr.tvg.TVG;
 
-public class CircleShape extends AbstractShape {
+public class Circle extends AbstractShape {
 
 	public double radius;
 
-	public CircleShape(double radius) {
+	public Circle(double radius) {
 		this.radius = radius;
 	}
 
