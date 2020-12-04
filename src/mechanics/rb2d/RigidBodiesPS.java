@@ -2,9 +2,7 @@ package mechanics.rb2d;
 
 import mechanics.rb2d.shapes.CircleShape;
 import mechanics.rb2d.shapes.PolygonShape;
-import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.tvg.MechanicsTVG;
-import sun.security.provider.certpath.Vertex;
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
 
@@ -16,7 +14,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test4();
+		test3();
 	}
 
 	private void test5() {
@@ -77,14 +75,14 @@ public class RigidBodiesPS extends PhysicalSystem {
 		rigidBodies = new RigidBody[5];
 		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-2, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 10, 0, 0,
 				new CircleShape(1.3));
-		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(2, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 10, 0, 0,
+		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(2, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 10, 1, 0,
 				new CircleShape(1.3));
 		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 2), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 10, 0, 0,
 				new CircleShape(1.3));
 		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(0,-2), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 10, 0, 0,
 				new CircleShape(1.3));
-		rigidBodies[4] = new RigidBody(1, new Vector2D(0, 0), new Vector2D(-0.5, 1), new Vector2D(0, 0), 0.5, 10, 1, 0,
-				new CircleShape(0.5));
+		rigidBodies[4] = new RigidBody(1, new Vector2D(0, 0), new Vector2D(1, 1.1), new Vector2D(0, 0), 0.5, 10, 0, 0,
+				new CircleShape(0.1));
 	}
 	
 	

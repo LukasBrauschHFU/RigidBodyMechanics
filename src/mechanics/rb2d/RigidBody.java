@@ -124,7 +124,13 @@ public class RigidBody {
 
 			Vector2D r1_r2 = VectorMath.sub(r2.r, this.r);
 			System.out.println("R1R2 "+r1_r2);
-			Vector2D impactEdge = new Vector2D(1,-(r1_r2.x * r1_r2.y));
+			
+			Vector2D impactEdge = VectorMath.perpendicular(this.r, r1_r2);	
+			if(this.r.x == r2.r.x)
+				impactEdge.set(1,0);
+			if(this.r.y == r2.r.y)
+				impactEdge.set(0,1);
+			
 			impactEdge.normalize();
 			Vector2D impactPoint = VectorMath.add(this.r,(VectorMath.mult(circleShape_r1.radius,VectorMath.normalize(r1_r2))));
 			System.out.println("impactedge "+ impactEdge);
@@ -195,7 +201,7 @@ public class RigidBody {
 		return new Point2D.Double(x, y);
 	}
 
-	public Vector2D rotateVector2D(Vector2D r, double rot) {
+	private Vector2D rotateVector2D(Vector2D r, double rot) {
 		return new Vector2D(r.x * cos(rot) - r.y * sin(rot), r.x * sin(rot) + r.y * cos(rot));
 	}
 }
