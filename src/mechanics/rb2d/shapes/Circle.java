@@ -11,6 +11,10 @@ public class Circle extends AbstractShape {
 
 	public double radius;
 
+	public Circle() {
+		this(1);
+	}
+	
 	public Circle(double radius) {
 		this.radius = radius;
 	}

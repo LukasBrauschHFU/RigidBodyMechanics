@@ -78,7 +78,7 @@ public class RigidBody {
 	}
 
 	public Impactpoint impactpoint(RigidBody r2) {
-		if (Polygon.class.equals(this.shape.getClass()) && Polygon.class.equals(r2.shape.getClass())) {
+		if (Polygon.class.isAssignableFrom(this.shape.getClass()) && Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			RigidBody r1 = this;
 
 			Polygon polygonShape_r1 = (Polygon) this.shape;
@@ -119,7 +119,7 @@ public class RigidBody {
 			Vector2D p = new Vector2D(impactpoint.x, impactpoint.y);
 			Vector2D e = new Vector2D(impactedge.x2 - impactedge.x1, impactedge.y2 - impactedge.y1);
 			return new Impactpoint(p, e);
-		} else if (Circle.class.equals(this.shape.getClass()) && Circle.class.equals(r2.shape.getClass())) {
+		} else if (Circle.class.isAssignableFrom(this.shape.getClass()) && Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
 			Vector2D r1_r2 = VectorMath.sub(r2.r, this.r);			
 			Vector2D impactEdge = VectorMath.perpendicular(this.r, r1_r2);	
@@ -131,7 +131,7 @@ public class RigidBody {
 			impactEdge.normalize();
 			Vector2D impactPoint = VectorMath.add(this.r,(VectorMath.mult(circleShape_r1.radius,VectorMath.normalize(r1_r2))));
 			return new Impactpoint(impactPoint, impactEdge);
-		} else if (Circle.class.equals(this.shape.getClass()) && Polygon.class.equals(r2.shape.getClass())) {
+		} else if (Circle.class.isAssignableFrom(this.shape.getClass()) && Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
 			Polygon polygonShape_r2 = (Polygon) r2.shape;
 			
@@ -166,7 +166,7 @@ public class RigidBody {
 			Vector2D impactPoint = VectorMath.footOfPerpendicular(this.r, new Vector2D(impactEdge.x1, impactEdge.y1), trueImpactEdge);;
 			return new Impactpoint(impactPoint, trueImpactEdge);
 					
-		} else if (Polygon.class.equals(this.shape.getClass()) && Circle.class.equals(r2.shape.getClass())) {
+		} else if (Polygon.class.isAssignableFrom(this.shape.getClass()) && Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Polygon polygonShape_r1 = (Polygon) this.shape;
 			Circle circleShape_r2 = (Circle) r2.shape;
 			
@@ -205,7 +205,7 @@ public class RigidBody {
 	}
 
 	public boolean in(RigidBody r2) {
-		if (Polygon.class.equals(this.shape.getClass()) && Polygon.class.equals(r2.shape.getClass())) {
+		if (Polygon.class.isAssignableFrom(this.shape.getClass()) && Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			Polygon polygonShape_r1 = (Polygon) this.shape;
 			Polygon polygonShape_r2 = (Polygon) r2.shape;
 
@@ -221,7 +221,7 @@ public class RigidBody {
 						return true;
 			return false;
 			
-		} else if (Circle.class.equals(this.shape.getClass()) && Circle.class.equals(r2.shape.getClass())) {
+		} else if (Circle.class.isAssignableFrom(this.shape.getClass()) && Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
 			Circle circleShape_r2 = (Circle) r2.shape;
 			double distance = VectorMath.sub(this.r, r2.r).abs();
@@ -230,7 +230,7 @@ public class RigidBody {
 			else
 				return false;
 			
-		} else if (Circle.class.equals(this.shape.getClass()) && Polygon.class.equals(r2.shape.getClass())) {
+		} else if (Circle.class.isAssignableFrom(this.shape.getClass()) && Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
 			Polygon polygonShape_r2 = (Polygon) r2.shape;
 			
@@ -244,7 +244,7 @@ public class RigidBody {
 					return true;
 			return false;
 			
-		} else if (Polygon.class.equals(this.shape.getClass()) && Circle.class.equals(r2.shape.getClass())) {
+		} else if (Polygon.class.isAssignableFrom(this.shape.getClass()) && Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Polygon polygonShape_r1 = (Polygon) this.shape;
 			Circle circleShape_r2 = (Circle) r2.shape;
 			
