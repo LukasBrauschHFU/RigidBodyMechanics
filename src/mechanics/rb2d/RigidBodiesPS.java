@@ -2,6 +2,7 @@ package mechanics.rb2d;
 
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
+import mechanics.rb2d.shapes.Rectangle;
 import mechanics.tvg.MechanicsTVG;
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
@@ -20,7 +21,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	private void test6() {
 		rigidBodies = new RigidBody[2];
 		rigidBodies[0] = new RigidBody(1, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0), 0.5, -2, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[1] = new RigidBody(1, new Vector2D(2.5, -1), new Vector2D(-1, 0), new Vector2D(0, 0), 0.5, 10, 0, 0,
 				new Circle(1));
 	}
@@ -28,13 +29,13 @@ public class RigidBodiesPS extends PhysicalSystem {
 	private void test5() {
 		rigidBodies = new RigidBody[6];
 		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1.1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 5, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(1.1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1.1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1.1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[4] = new RigidBody(1, new Vector2D(0.4, -0.2), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.25, 0, 0, 0,
 				new Polygon(new Vector2D[] {new Vector2D(-0.1, 0.1), new Vector2D(0.1, 0.1), new Vector2D(0.1, -0.1),
 						new Vector2D(-0.1, -0.1)}));
@@ -47,13 +48,13 @@ public class RigidBodiesPS extends PhysicalSystem {
 	private void test4() {
 		rigidBodies = new RigidBody[6];
 		rigidBodies[0] = new RigidBody(Double.MAX_VALUE, new Vector2D(-1.1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 5, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[1] = new RigidBody(Double.MAX_VALUE, new Vector2D(1.1, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[2] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, 1.1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[3] = new RigidBody(Double.MAX_VALUE, new Vector2D(0, -1.1), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, 0, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[4] = new RigidBody(1, new Vector2D(0.4, -0.2), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.25, 0, 0, 0,
 				new Polygon(new Vector2D[] { new Vector2D(0.1, -0.1), new Vector2D(-0.1, -0.1), new Vector2D(0, 0.2) }));
 		rigidBodies[5] = new RigidBody(1, new Vector2D(-0.4, 0.2), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.25, 0, 0, 0,
@@ -65,9 +66,9 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public void test1() {
 		rigidBodies = new RigidBody[2];
 		rigidBodies[0] = new RigidBody(1, new Vector2D(-1, 0), new Vector2D(1, 0), new Vector2D(0, 0), 0.5, 10, 0, 0,
-				new Polygon());
+				new Rectangle());
 		rigidBodies[1] = new RigidBody(1, new Vector2D(1, 0), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.5, 0, 0, 0,
-				new Polygon());
+				new Rectangle());
 	}
 	
 	public void test2() {

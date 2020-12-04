@@ -10,11 +10,6 @@ import de.physolator.usr.tvg.TVG;
 public class Polygon extends AbstractShape{
 	public Vector2D[] vertices;
 
-	public Polygon() {
-		this(new Vector2D[] { new Vector2D(-0.5, 0.5), new Vector2D(0.5, 0.5), new Vector2D(0.5, -0.5),
-				new Vector2D(-0.5, -0.5) });
-	}
-
 	public Polygon(Vector2D[] vertexList) {
 		vertices = vertexList;
 	}
