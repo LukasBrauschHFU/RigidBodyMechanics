@@ -4,7 +4,6 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 import de.physolator.usr.components.Vector2D;
-import de.physolator.usr.components.VectorMath;
 import de.physolator.usr.tvg.Shape;
 import de.physolator.usr.tvg.TVG;
 

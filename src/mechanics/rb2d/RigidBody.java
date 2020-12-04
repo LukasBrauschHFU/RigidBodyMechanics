@@ -200,8 +200,4 @@ public class RigidBody {
 		double y = translation.y + sin(phi) * vertex.x - cos(phi) * vertex.y;
 		return new Point2D.Double(x, y);
 	}
-
-	private Vector2D rotateVector2D(Vector2D r, double rot) {
-		return new Vector2D(r.x * cos(rot) - r.y * sin(rot), r.x * sin(rot) + r.y * cos(rot));
-	}
 }
