@@ -136,10 +136,35 @@ public class RigidBody {
 			System.out.println("impactedge "+ impactEdge);
 			System.out.println("impactpoint "+ impactPoint);
 			return new Impactpoint(impactPoint, impactEdge);
-		} else {
+		} else if (CircleShape.class.equals(this.shape.getClass()) && PolygonShape.class.equals(r2.shape.getClass())) {
+			CircleShape circleShape_r1 = (CircleShape) this.shape;
+			PolygonShape polygonShape_r2 = (PolygonShape) r2.shape;
+			
+			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r2.vertices, r2.phi, r2.r);
+			Line2D.Double[] edges = getEdges(vertices);
+			
+			double r = circleShape_r1.radius;
+			
+			double smallestDistanceToLine = Double.MAX_VALUE;
+			
+			for (Line2D.Double edge : edges) {
+				if(edge.ptSegDist(this.r.x, this.r.y) < smallestDistanceToLine) {
+					smallestDistanceToLine = edge.ptSegDist(this.r.x, this.r.y);
+				}
+			}
+			for (Point2D.Double vertex : vertices) {
+				if(vertex.distance(this.r.x, this.r.y) <= smallestDistanceToLine) {
+					//Case: hit vertex
+					return null;
+				}
+			}
+			//Case: hit edge
 			return null;
-		}
+					
+		} else if (PolygonShape.class.equals(this.shape.getClass()) && CircleShape.class.equals(r2.shape.getClass())) {
 
+		}
+		return null;
 	}
 
 	public boolean in(RigidBody r2) {
@@ -153,29 +178,50 @@ public class RigidBody {
 			Line2D.Double[] edges1 = getEdges(vertices1);
 			Line2D.Double[] edges2 = getEdges(vertices2);
 
-			for (Line2D.Double a : edges1) {
-				for (Line2D.Double b : edges2) {
-					if (a.intersectsLine(b)) {
+			for (Line2D.Double a : edges1)
+				for (Line2D.Double b : edges2)
+					if (a.intersectsLine(b))
 						return true;
-					}
-				}
-			}
 			return false;
-		}
-		if (CircleShape.class.equals(this.shape.getClass()) && CircleShape.class.equals(r2.shape.getClass())) {
+			
+		} else if (CircleShape.class.equals(this.shape.getClass()) && CircleShape.class.equals(r2.shape.getClass())) {
 			CircleShape circleShape_r1 = (CircleShape) this.shape;
 			CircleShape circleShape_r2 = (CircleShape) r2.shape;
-
 			double distance = VectorMath.sub(this.r, r2.r).abs();
-			if ((circleShape_r1.radius + circleShape_r2.radius) >= distance) {
+			if ((circleShape_r1.radius + circleShape_r2.radius) >= distance)
 				return true;
-			} else {
+			else
 				return false;
-			}
-		} else {
+			
+		} else if (CircleShape.class.equals(this.shape.getClass()) && PolygonShape.class.equals(r2.shape.getClass())) {
+			CircleShape circleShape_r1 = (CircleShape) this.shape;
+			PolygonShape polygonShape_r2 = (PolygonShape) r2.shape;
+			
+			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r2.vertices, r2.phi, r2.r);
+			Line2D.Double[] edges = getEdges(vertices);
+			
+			double r = circleShape_r1.radius;
+			
+			for (Line2D.Double edge : edges)
+				if(edge.ptSegDist(this.r.x, this.r.y) <= r)
+					return true;
+			return false;
+			
+		} else if (PolygonShape.class.equals(this.shape.getClass()) && CircleShape.class.equals(r2.shape.getClass())) {
+			PolygonShape polygonShape_r1 = (PolygonShape) this.shape;
+			CircleShape circleShape_r2 = (CircleShape) r2.shape;
+			
+			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r1.vertices, this.phi, this.r);
+			Line2D.Double[] edges = getEdges(vertices);
+			
+			double r = circleShape_r2.radius;
+			
+			for (Line2D.Double edge : edges)
+				if(edge.ptSegDist(r2.r.x, r2.r.y) <= r)
+					return true;
 			return false;
 		}
-
+		return false;
 	}
 
 	private Line2D.Double[] getEdges(Point2D.Double[] points) {
