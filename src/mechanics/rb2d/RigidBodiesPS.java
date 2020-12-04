@@ -19,9 +19,9 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 	private void test6() {
 		rigidBodies = new RigidBody[2];
-		rigidBodies[0] = new RigidBody(1, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0), 0.5, 10, 0, 0,
+		rigidBodies[0] = new RigidBody(1, new Vector2D(-1, 0), new Vector2D(0, 0), new Vector2D(0, 0), 0.5, -2, 0, 0,
 				new PolygonShape());
-		rigidBodies[1] = new RigidBody(1, new Vector2D(2.5, 0), new Vector2D(-1, 0), new Vector2D(0, 0), 0.5, 10, 0, 0,
+		rigidBodies[1] = new RigidBody(1, new Vector2D(2.5, -1), new Vector2D(-1, 0), new Vector2D(0, 0), 0.5, 10, 0, 0,
 				new CircleShape(1));
 	}
 
