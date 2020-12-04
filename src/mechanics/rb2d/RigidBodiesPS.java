@@ -19,7 +19,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test7();
+		test6();
 	}
 
 	private void test7() {
