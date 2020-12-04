@@ -32,18 +32,17 @@ public class RigidBodiesPS extends PhysicalSystem {
 		
 		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0), Double.MAX_VALUE, Math.PI/8, 0, 0, new Rectangle(2,1)));
 		
-		rigidBodies.add(new RigidBody(1, new Vector2D(-3.5, 0.5), new Vector2D(1, -0.5), new Vector2D(0, 0), 0.4, Math.PI/2, 0, 0, new Rectangle()));
+		rigidBodies.add(new RigidBody(1, new Vector2D(-3.5, 0.5), new Vector2D(1, -0.5), new Vector2D(0, 0), 0.4, Math.PI/2, -0.4, 0, new Rectangle()));
 		
 		
-		rigidBodies.add(new RigidBody(1.5, new Vector2D(2.5, -1), new Vector2D(-1, 0), new Vector2D(0, 0), 0.6, 10, 0, 0,
+		rigidBodies.add(new RigidBody(1.5, new Vector2D(2.5, -1), new Vector2D(-1, 0), new Vector2D(0, 0), 0.6, 10, 0.5, 0,
 				new Circle(1)));
-		rigidBodies.add(new RigidBody(1.5, new Vector2D(-2.3, -1), new Vector2D(-1, -4), new Vector2D(0, 0), 0.6, 10, 0, 0,
+		rigidBodies.add(new RigidBody(1.5, new Vector2D(-2.3, -1), new Vector2D(-1, -4), new Vector2D(0, 0), 0.6, -10, -2, 0,
 				new Circle(1)));
-		
-		rigidBodies.add(new RigidBody(0.7, new Vector2D(3, 3), new Vector2D(-0.5, 0), new Vector2D(0, 0), 0.3, 10, 0, 0,
+		rigidBodies.add(new RigidBody(0.7, new Vector2D(3, 3), new Vector2D(-0.4, -0.1), new Vector2D(0, 0), 0.3, 10, 1, 0,
 				new Circle(0.5)));
 		
-		rigidBodies.add(new RigidBody(2.7, new Vector2D(3, 3), new Vector2D(-0.5, 0), new Vector2D(0, 0), 8, 0, 0, 0,
+		rigidBodies.add(new RigidBody(2.7, new Vector2D(3, 3), new Vector2D(-0.5, 0), new Vector2D(0, 0), 10, 0, -0.1, 0,
 				new Polygon(new Vector2D[] {new Vector2D(-1.5, 1.5), new Vector2D(1.5, 1.5), new Vector2D(1.5, -1.5), new Vector2D(-1.5, -1.5),
 						new Vector2D(-1, -1), new Vector2D(1, -1), new Vector2D(1, 1), new Vector2D(-1, 1)})));
 		
@@ -155,7 +154,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	@Override
 	public void initGraphicsComponents(GraphicsComponents g, Structure s, Recorder r, SimulationParameters sp) {
 		MechanicsTVG mTVG = new MechanicsTVG(this, s, r);
-		mTVG.geometry.setUserArea(-2, 2, -2, 2);
+		mTVG.geometry.setUserArea(-6, 6, -6, 6);
 		mTVG.velocityScaling = 100;
 		mTVG.accelerationScaling = 10;
 		mTVG.angularVelocityScaling = 0.2;
