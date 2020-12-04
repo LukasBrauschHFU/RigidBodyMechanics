@@ -3,19 +3,20 @@ package mechanics.tvg;
 import de.physolator.usr.StructureElement;
 
 public class PM2D {
-	
+
 	public Object object;
-	
+
 	public StructureElement rx, ry, vx, vy, ax, ay, Frx, Fry, Fnx, Fny, Fgx, Fgy, Fhx, Fhy, Fresx, Fresy;
-	
+
 	public double m;
 	public double radius;
 	public String name;
-	
+
 	public PM2D(Object object, StructureElement rx, StructureElement ry, StructureElement vx, StructureElement vy,
-			StructureElement ax, StructureElement ay, StructureElement Frx,
-			StructureElement Fry, StructureElement Fnx, StructureElement Fny, StructureElement Fgx, StructureElement Fgy, 
-			StructureElement Fhx,StructureElement Fhy, StructureElement Fresx, StructureElement Fresy, double m, double radius, String name) {
+			StructureElement ax, StructureElement ay, StructureElement Frx, StructureElement Fry, StructureElement Fnx,
+			StructureElement Fny, StructureElement Fgx, StructureElement Fgy, StructureElement Fhx,
+			StructureElement Fhy, StructureElement Fresx, StructureElement Fresy, double m, double radius,
+			String name) {
 		super();
 		this.object = object;
 		this.rx = rx;
@@ -38,5 +39,5 @@ public class PM2D {
 		this.radius = radius;
 		this.name = name;
 	}
-		
+
 }

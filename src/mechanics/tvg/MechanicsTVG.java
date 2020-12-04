@@ -2,17 +2,12 @@ package mechanics.tvg;
 
 import static java.lang.Math.*;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import InclinePlain.Ball;
-import InclinePlain.Incline;
 import mechanics.rb2d.RigidBody;
 import de.physolator.usr.*;
 import de.physolator.usr.components.*;
 import de.physolator.usr.tvg.*;
-import de.physolator.usr.tvg.events.EventHandler;
-import de.physolator.usr.tvg.events.KeyEventTable;
 import de.physolator.usr.util.*;
 import de.physolator.usr.util.parameter.*;
 import static de.physolator.usr.components.VectorMath.*;
@@ -47,12 +42,6 @@ public class MechanicsTVG extends TVG {
 		for (StructureElement s : structure.getSubstructures()) {
 			if (s.getType().isAssignableFrom(RigidBody.class)) {
 				dc2dl.add(new RigidBodyDC2D(this, s.getName(), (RigidBody) s.getObject()));
-			}
-			if (s.getType().isAssignableFrom(Ball.class)) {
-				dc2dl.add(new BallDC2D(this, s.getName(), (Ball) s.getObject()));
-			}
-			if (s.getType().isAssignableFrom(Incline.class)) {
-				dc2dl.add(new InclineDC2D(this, s.getName(), (Incline) s.getObject()));
 			}
 		}
 	}
@@ -94,8 +83,7 @@ public class MechanicsTVG extends TVG {
 		double radius = subDoubleValue(se, "radius", 0);
 		pms.add(new PM2D(se.getObject(), sub(r, "x"), sub(r, "y"), sub(v, "x"), sub(v, "y"), sub(a, "x"), sub(a, "y"),
 				sub(Fr, "x"), sub(Fr, "y"), sub(Fn, "x"), sub(Fn, "y"), sub(Fg, "x"), sub(Fg, "y"), sub(Fh, "x"),
-				sub(Fh, "y"), sub(Fres, "x"), sub(Fres, "y"), m, radius,
-				se.getTotalName()));
+				sub(Fh, "y"), sub(Fres, "x"), sub(Fres, "y"), m, radius, se.getTotalName()));
 	}
 
 	public void initSP2D(StructureElement se) {
@@ -118,9 +106,9 @@ public class MechanicsTVG extends TVG {
 				se.getTotalName()));
 	}
 
-	public void addPointMass(String x, String y, String vx, String vy, String ax, String ay, String Frx,
-			String Fry, String Fnx, String Fny, String Fgx, String Fgy, String Fhx, String Fhy, String Fresx,
-			String Fresy, String name) {
+	public void addPointMass(String x, String y, String vx, String vy, String ax, String ay, String Frx, String Fry,
+			String Fnx, String Fny, String Fgx, String Fgy, String Fhx, String Fhy, String Fresx, String Fresy,
+			String name) {
 		pms.add(new PM2D(structure, structure.getStructureElement(x), structure.getStructureElement(y),
 				structure.getStructureElement(vx), structure.getStructureElement(vy), structure.getStructureElement(ax),
 				structure.getStructureElement(ay), structure.getStructureElement(Frx),
@@ -531,7 +519,8 @@ public class MechanicsTVG extends TVG {
 			if (showFn) {
 				Vector2D a = new Vector2D(recorder.getDouble(p.Fnx, c), recorder.getDouble(p.Fny, c));
 				drawArrow(r, a, FnScaling, ArrowType.FORCE);
-//				drawText(r.x - getLength(r, FnScaling), r.y - getLength(r, FnScaling), "Fn");
+				// drawText(r.x - getLength(r, FnScaling), r.y - getLength(r,
+				// FnScaling), "Fn");
 			}
 			if (showFg) {
 				Vector2D a = new Vector2D(recorder.getDouble(p.Fgx, c), recorder.getDouble(p.Fgy, c));
@@ -545,7 +534,6 @@ public class MechanicsTVG extends TVG {
 				Vector2D a = new Vector2D(recorder.getDouble(p.Fresx, c), recorder.getDouble(p.Fresy, c));
 				drawArrow(r, a, FresScaling, ArrowType.FORCE);
 			}
-			
 
 			style.fillColor = standardFillColor;
 			drawPointMass(x, y, radius, p.object);
@@ -556,7 +544,4 @@ public class MechanicsTVG extends TVG {
 		}
 		endClipping();
 	}
-	
-
-
 }

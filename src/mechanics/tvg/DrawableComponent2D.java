@@ -1,8 +1,6 @@
 package mechanics.tvg;
 
-
 public abstract class DrawableComponent2D {
-	
 	protected MechanicsTVG mTVG;
 	protected String name;
 
@@ -11,9 +9,5 @@ public abstract class DrawableComponent2D {
 		this.name = name;
 	}
 
-	
 	public abstract void paint();
-
-
-
 }
