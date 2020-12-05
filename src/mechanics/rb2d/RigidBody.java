@@ -10,6 +10,7 @@ import de.physolator.usr.util.Color;
 import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
+import sun.security.util.ArrayUtil;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -49,6 +50,10 @@ public class RigidBody {
 	public BodyState state;
 	@Ignore
 	public boolean visible = true;
+	@Ignore
+	public double t_before = 0;
+	@Ignore
+	public RigidBody impactPartner_before;
 
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			AbstractShape shape) {
@@ -68,18 +73,40 @@ public class RigidBody {
 		E_kin = 0.5 * m * v.abs() * v.abs();
 		E_rot = 0.5 * I * omega * omega;
 		E_rb = E_kin + E_rot;
-
 	}
 
-	public void collisionWithRigidBodyCheck(AfterEventDescription aed, RigidBody r2) {
-		if (this.in(r2)) {
+	public void collisionWithRigidBodyCheck(AfterEventDescription aed, RigidBody r2, double t,
+			RigidBody[] rigidBodies) {
+		double r1_t_before = Math.round(this.t_before * 10e3) * 10e-3;
+		double r2_t_before = Math.round(r2.t_before * 10e3) * 10e-3;
+		double t_rounded = Math.round(t * 10e3) * 10e-3;
+
+		if (this == r2.impactPartner_before && r2 == this.impactPartner_before) {
+			if ((r1_t_before == 0 || r2_t_before == 0) || (t_rounded != r1_t_before && t_rounded != r2_t_before)) {
+//				System.out.println("hier");
+				if (this.in(r2)) {
+					this.impactPartner_before = r2;
+					r2.impactPartner_before = this;
+					this.t_before = t;
+					r2.t_before = t;
+					Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
+					aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
+				}
+			}
+		}else if (this.in(r2)) {
+			this.impactPartner_before = r2;
+			r2.impactPartner_before = this;
+			this.t_before = t;
+			r2.t_before = t;
 			Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
 			aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
 		}
+
 	}
 
 	public Impactpoint impactpoint(RigidBody r2) {
-		if (Polygon.class.isAssignableFrom(this.shape.getClass()) && Polygon.class.isAssignableFrom(r2.shape.getClass())) {
+		if (Polygon.class.isAssignableFrom(this.shape.getClass())
+				&& Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			RigidBody r1 = this;
 
 			Polygon polygonShape_r1 = (Polygon) this.shape;
@@ -120,93 +147,102 @@ public class RigidBody {
 			Vector2D p = new Vector2D(impactpoint.x, impactpoint.y);
 			Vector2D e = new Vector2D(impactedge.x2 - impactedge.x1, impactedge.y2 - impactedge.y1);
 			return new Impactpoint(p, e);
-		} else if (Circle.class.isAssignableFrom(this.shape.getClass()) && Circle.class.isAssignableFrom(r2.shape.getClass())) {
+		} else if (Circle.class.isAssignableFrom(this.shape.getClass())
+				&& Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
-			Vector2D r1_r2 = VectorMath.sub(r2.r, this.r);			
-			Vector2D impactEdge = VectorMath.perpendicular(this.r, r1_r2);	
-			if(this.r.x == r2.r.x)
-				impactEdge.set(1,0);
-			if(this.r.y == r2.r.y)
-				impactEdge.set(0,1);
-			
+			Vector2D r1_r2 = VectorMath.sub(r2.r, this.r);
+			Vector2D impactEdge = VectorMath.perpendicular(this.r, r1_r2);
+			if (this.r.x == r2.r.x)
+				impactEdge.set(1, 0);
+			if (this.r.y == r2.r.y)
+				impactEdge.set(0, 1);
+
 			impactEdge.normalize();
-			Vector2D impactPoint = VectorMath.add(this.r,(VectorMath.mult(circleShape_r1.radius,VectorMath.normalize(r1_r2))));
+			Vector2D impactPoint = VectorMath.add(this.r,
+					(VectorMath.mult(circleShape_r1.radius, VectorMath.normalize(r1_r2))));
 			return new Impactpoint(impactPoint, impactEdge);
-		} else if (Circle.class.isAssignableFrom(this.shape.getClass()) && Polygon.class.isAssignableFrom(r2.shape.getClass())) {
+		} else if (Circle.class.isAssignableFrom(this.shape.getClass())
+				&& Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
 			Polygon polygonShape_r2 = (Polygon) r2.shape;
-			
+
 			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r2.vertices, r2.phi, r2.r);
 			Line2D.Double[] edges = getEdges(vertices);
-			
+
 			double r = circleShape_r1.radius;
-			
+
 			double smallestDistanceToLine = Double.MAX_VALUE;
 			Line2D.Double impactEdge = edges[0];
 			for (Line2D.Double edge : edges) {
-				if(edge.ptSegDist(this.r.x, this.r.y) <= smallestDistanceToLine) {
+				if (edge.ptSegDist(this.r.x, this.r.y) <= smallestDistanceToLine) {
 					smallestDistanceToLine = edge.ptSegDist(this.r.x, this.r.y);
 					impactEdge = edge;
 				}
 			}
 			for (Point2D.Double vertex : vertices) {
-				if(vertex.distance(this.r.x, this.r.y) <= smallestDistanceToLine) {
-					//Case: hit vertex
+				if (vertex.distance(this.r.x, this.r.y) <= smallestDistanceToLine) {
+					// Case: hit vertex
 					Vector2D impactPoint = new Vector2D(vertex.x, vertex.y);
-					Vector2D impactPoint_circle = VectorMath.sub(this.r, impactPoint);			
-					Vector2D trueImpactEdge = VectorMath.perpendicular(impactPoint, impactPoint_circle);	
-					if(this.r.x == r2.r.x)
-						trueImpactEdge.set(1,0);
-					if(this.r.y == r2.r.y)
-						trueImpactEdge.set(0,1);
+					Vector2D impactPoint_circle = VectorMath.sub(this.r, impactPoint);
+					Vector2D trueImpactEdge = VectorMath.perpendicular(impactPoint, impactPoint_circle);
+					if (this.r.x == r2.r.x)
+						trueImpactEdge.set(1, 0);
+					if (this.r.y == r2.r.y)
+						trueImpactEdge.set(0, 1);
 					return new Impactpoint(impactPoint, trueImpactEdge);
 				}
 			}
-			//Case: hit edge
-			Vector2D trueImpactEdge = new Vector2D(impactEdge.x2-impactEdge.x1, impactEdge.y2-impactEdge.y1);
-			Vector2D impactPoint = VectorMath.footOfPerpendicular(this.r, new Vector2D(impactEdge.x1, impactEdge.y1), trueImpactEdge);;
+			// Case: hit edge
+			Vector2D trueImpactEdge = new Vector2D(impactEdge.x2 - impactEdge.x1, impactEdge.y2 - impactEdge.y1);
+			Vector2D impactPoint = VectorMath.footOfPerpendicular(this.r, new Vector2D(impactEdge.x1, impactEdge.y1),
+					trueImpactEdge);
+			;
 			return new Impactpoint(impactPoint, trueImpactEdge);
-					
-		} else if (Polygon.class.isAssignableFrom(this.shape.getClass()) && Circle.class.isAssignableFrom(r2.shape.getClass())) {
+
+		} else if (Polygon.class.isAssignableFrom(this.shape.getClass())
+				&& Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Polygon polygonShape_r1 = (Polygon) this.shape;
 			Circle circleShape_r2 = (Circle) r2.shape;
-			
+
 			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r1.vertices, this.phi, this.r);
 			Line2D.Double[] edges = getEdges(vertices);
-			
+
 			double r = circleShape_r2.radius;
-			
+
 			double smallestDistanceToLine = Double.MAX_VALUE;
 			Line2D.Double impactEdge = edges[0];
 			for (Line2D.Double edge : edges) {
-				if(edge.ptSegDist(r2.r.x, r2.r.y) <= smallestDistanceToLine) {
+				if (edge.ptSegDist(r2.r.x, r2.r.y) <= smallestDistanceToLine) {
 					smallestDistanceToLine = edge.ptSegDist(r2.r.x, r2.r.y);
 					impactEdge = edge;
 				}
 			}
 			for (Point2D.Double vertex : vertices) {
-				if(vertex.distance(r2.r.x, r2.r.y) <= smallestDistanceToLine) {
-					//Case: hit vertex
+				if (vertex.distance(r2.r.x, r2.r.y) <= smallestDistanceToLine) {
+					// Case: hit vertex
 					Vector2D impactPoint = new Vector2D(vertex.x, vertex.y);
-					Vector2D impactPoint_circle = VectorMath.sub(r2.r, impactPoint);			
-					Vector2D trueImpactEdge = VectorMath.perpendicular(impactPoint, impactPoint_circle);	
-					if(r2.r.x == this.r.x)
-						trueImpactEdge.set(1,0);
-					if(r2.r.y == this.r.y)
-						trueImpactEdge.set(0,1);
+					Vector2D impactPoint_circle = VectorMath.sub(r2.r, impactPoint);
+					Vector2D trueImpactEdge = VectorMath.perpendicular(impactPoint, impactPoint_circle);
+					if (r2.r.x == this.r.x)
+						trueImpactEdge.set(1, 0);
+					if (r2.r.y == this.r.y)
+						trueImpactEdge.set(0, 1);
 					return new Impactpoint(impactPoint, trueImpactEdge);
 				}
 			}
-			//Case: hit edge
-			Vector2D trueImpactEdge = new Vector2D(impactEdge.x2-impactEdge.x1, impactEdge.y2-impactEdge.y1);
-			Vector2D impactPoint = VectorMath.footOfPerpendicular(r2.r, new Vector2D(impactEdge.x1, impactEdge.y1), trueImpactEdge);;
+			// Case: hit edge
+			Vector2D trueImpactEdge = new Vector2D(impactEdge.x2 - impactEdge.x1, impactEdge.y2 - impactEdge.y1);
+			Vector2D impactPoint = VectorMath.footOfPerpendicular(r2.r, new Vector2D(impactEdge.x1, impactEdge.y1),
+					trueImpactEdge);
+			;
 			return new Impactpoint(impactPoint, trueImpactEdge);
 		}
 		return null;
 	}
 
 	public boolean in(RigidBody r2) {
-		if (Polygon.class.isAssignableFrom(this.shape.getClass()) && Polygon.class.isAssignableFrom(r2.shape.getClass())) {
+		if (Polygon.class.isAssignableFrom(this.shape.getClass())
+				&& Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			Polygon polygonShape_r1 = (Polygon) this.shape;
 			Polygon polygonShape_r2 = (Polygon) r2.shape;
 
@@ -221,8 +257,9 @@ public class RigidBody {
 					if (a.intersectsLine(b))
 						return true;
 			return false;
-			
-		} else if (Circle.class.isAssignableFrom(this.shape.getClass()) && Circle.class.isAssignableFrom(r2.shape.getClass())) {
+
+		} else if (Circle.class.isAssignableFrom(this.shape.getClass())
+				&& Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
 			Circle circleShape_r2 = (Circle) r2.shape;
 			double distance = VectorMath.sub(this.r, r2.r).abs();
@@ -230,32 +267,34 @@ public class RigidBody {
 				return true;
 			else
 				return false;
-			
-		} else if (Circle.class.isAssignableFrom(this.shape.getClass()) && Polygon.class.isAssignableFrom(r2.shape.getClass())) {
+
+		} else if (Circle.class.isAssignableFrom(this.shape.getClass())
+				&& Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
 			Polygon polygonShape_r2 = (Polygon) r2.shape;
-			
+
 			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r2.vertices, r2.phi, r2.r);
 			Line2D.Double[] edges = getEdges(vertices);
-			
+
 			double r = circleShape_r1.radius;
-			
+
 			for (Line2D.Double edge : edges)
-				if(edge.ptSegDist(this.r.x, this.r.y) <= r)
+				if (edge.ptSegDist(this.r.x, this.r.y) <= r)
 					return true;
 			return false;
-			
-		} else if (Polygon.class.isAssignableFrom(this.shape.getClass()) && Circle.class.isAssignableFrom(r2.shape.getClass())) {
+
+		} else if (Polygon.class.isAssignableFrom(this.shape.getClass())
+				&& Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Polygon polygonShape_r1 = (Polygon) this.shape;
 			Circle circleShape_r2 = (Circle) r2.shape;
-			
+
 			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r1.vertices, this.phi, this.r);
 			Line2D.Double[] edges = getEdges(vertices);
-			
+
 			double r = circleShape_r2.radius;
-			
+
 			for (Line2D.Double edge : edges)
-				if(edge.ptSegDist(r2.r.x, r2.r.y) <= r)
+				if (edge.ptSegDist(r2.r.x, r2.r.y) <= r)
 					return true;
 			return false;
 		}
