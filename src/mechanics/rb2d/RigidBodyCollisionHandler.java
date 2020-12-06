@@ -7,7 +7,7 @@ import static java.lang.Math.*;
 
 public class RigidBodyCollisionHandler implements Runnable {
 
-	private double k = 1;
+	private double k = 0.7;
 	private RigidBody rb1;
 	private RigidBody rb2;
 	private Impactpoint ip;

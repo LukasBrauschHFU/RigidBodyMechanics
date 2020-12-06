@@ -46,7 +46,7 @@ public class RigidBody {
 	public int color = Color.make(0.5, 0.5, 0.5);
 	@Ignore
 	public AbstractShape shape;
-	@Ignore
+
 	public BodyState state;
 	@Ignore
 	public boolean visible = true;
@@ -54,6 +54,14 @@ public class RigidBody {
 	public double t_before = 0;
 	@Ignore
 	public RigidBody impactPartner_before;
+	@Ignore
+	public boolean gravity;
+	@Ignore
+	public boolean dynamic;
+
+	public BodyDirection direction;
+	@Ignore
+	public double friction = 0.05;
 
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			AbstractShape shape) {
@@ -67,6 +75,38 @@ public class RigidBody {
 		this.alpha = alpha;
 		this.shape = shape;
 		this.state = BodyState.FLYING;
+		this.gravity = false;
+		this.dynamic = false;
+		if (v.x > 0)
+			this.direction = BodyDirection.RIGHT;
+		else if (v.x <= 0)
+			this.direction = BodyDirection.LEFT;
+		else if (v.x == 0)
+			this.direction = BodyDirection.NONE;
+	}
+
+	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
+			AbstractShape shape, boolean gravity, boolean dynamic) {
+		this.m = m;
+		this.r = r;
+		this.v = v;
+		this.a = a;
+		this.I = I;
+		this.phi = phi;
+		this.omega = omega;
+		this.alpha = alpha;
+		this.shape = shape;
+		this.state = BodyState.FLYING;
+		this.gravity = gravity;
+		if (gravity)
+			a.y = -9.81;
+		this.dynamic = dynamic;
+		if (v.x > 0)
+			this.direction = BodyDirection.RIGHT;
+		else if (v.x <= 0)
+			this.direction = BodyDirection.LEFT;
+		else if (v.x == 0)
+			this.direction = BodyDirection.NONE;
 	}
 
 	public void f(double t, double dt) {
@@ -81,27 +121,44 @@ public class RigidBody {
 		double r2_t_before = Math.round(r2.t_before * 10e3) * 10e-3;
 		double t_rounded = Math.round(t * 10e3) * 10e-3;
 
-		if (this == r2.impactPartner_before && r2 == this.impactPartner_before) {
-			if ((r1_t_before == 0 || r2_t_before == 0) || (t_rounded != r1_t_before && t_rounded != r2_t_before)) {
-//				System.out.println("hier");
-				if (this.in(r2)) {
-					this.impactPartner_before = r2;
-					r2.impactPartner_before = this;
-					this.t_before = t;
-					r2.t_before = t;
-					Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
-					aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
+		if (state == BodyState.FLYING) {
+			if (this == r2.impactPartner_before && r2 == this.impactPartner_before) {
+				if ((r1_t_before == 0 || r2_t_before == 0) || (t_rounded != r1_t_before && t_rounded != r2_t_before)) {
+					if (this.in(r2)) {
+						System.out.println("1");
+						if (Math.abs(v.y) > 1)
+							RbRbCollision(aed, r2, t);
+						else {
+							Runnable handler = new CircleRollsOnLineHandler(this, impactpoint(r2));
+							aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
+						}
+					}
 				}
-			}
-		}else if (this.in(r2)) {
-			this.impactPartner_before = r2;
-			r2.impactPartner_before = this;
-			this.t_before = t;
-			r2.t_before = t;
-			Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
-			aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
-		}
 
+			} else if (this.in(r2)) {
+				System.out.println("2");
+				RbRbCollision(aed, r2, t);
+			}
+		} else if (state == BodyState.ROLLING) {
+			if ((direction == BodyDirection.LEFT && Math.round(v.x * 10e3) / 10e3 >= 0)
+					|| (direction == BodyDirection.RIGHT && Math.round(v.x * 10e3) / 10e3 <= 0)) {
+				a.set(0, 0);
+				v.set(0, 0);
+				omega = 0;
+				alpha = 0;
+				direction = BodyDirection.NONE;
+				state = BodyState.STOP;
+			}
+		}
+	}
+
+	private void RbRbCollision(AfterEventDescription aed, RigidBody r2, double t) {
+		this.impactPartner_before = r2;
+		r2.impactPartner_before = this;
+		this.t_before = t;
+		r2.t_before = t;
+		Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
+		aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
 	}
 
 	public Impactpoint impactpoint(RigidBody r2) {
