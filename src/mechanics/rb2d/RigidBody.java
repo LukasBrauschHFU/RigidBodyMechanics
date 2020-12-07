@@ -10,7 +10,6 @@ import de.physolator.usr.util.Color;
 import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
-import sun.security.util.ArrayUtil;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
