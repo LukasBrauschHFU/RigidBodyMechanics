@@ -54,6 +54,8 @@ public class RigidBody {
 	public double t_before = 0;
 	@Ignore
 	public RigidBody impactPartner_before;
+	
+	public boolean dynamic;
 
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			AbstractShape shape) {
@@ -67,6 +69,22 @@ public class RigidBody {
 		this.alpha = alpha;
 		this.shape = shape;
 		this.state = BodyState.FLYING;
+		this.dynamic = false;
+	}
+	
+	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
+			AbstractShape shape, boolean dynamic) {
+		this.m = m;
+		this.r = r;
+		this.v = v;
+		this.a = a;
+		this.I = I;
+		this.phi = phi;
+		this.omega = omega;
+		this.alpha = alpha;
+		this.shape = shape;
+		this.state = BodyState.FLYING;
+		this.dynamic = dynamic;
 	}
 
 	public void f(double t, double dt) {
