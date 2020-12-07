@@ -13,6 +13,11 @@ import mechanics.rb2d.shapes.Polygon;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class RigidBody {
 
@@ -40,7 +45,10 @@ public class RigidBody {
 	public double E_rot;
 	@V(unit = "kg*m/s")
 	public double E_rb;
-
+	
+	@Ignore
+	public Map<String, Vector2D> forces;
+	
 	@Ignore
 	public int color = Color.make(0.5, 0.5, 0.5);
 	@Ignore
@@ -69,27 +77,38 @@ public class RigidBody {
 		this.shape = shape;
 		this.state = BodyState.FLYING;
 		this.dynamic = false;
+		this.forces = new HashMap<String, Vector2D>();
 	}
 	
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			AbstractShape shape, boolean dynamic) {
-		this.m = m;
-		this.r = r;
-		this.v = v;
-		this.a = a;
-		this.I = I;
-		this.phi = phi;
-		this.omega = omega;
-		this.alpha = alpha;
-		this.shape = shape;
-		this.state = BodyState.FLYING;
+		this(m, r, v, a, I, phi, omega, alpha, shape);
 		this.dynamic = dynamic;
 	}
 
 	public void f(double t, double dt) {
+		this.calculateAcceleration();
+		this.calculateEnergy();
+	}
+	
+	private void calculateAcceleration() {
+		Vector2D accelerationSum = new Vector2D(0,0);
+		Collection<Vector2D> forcesCollection = forces.values();
+		Iterator<Vector2D> iterator = forcesCollection.iterator();
+ 
+		while (iterator.hasNext()) {
+			Vector2D force = iterator.next();
+			Vector2D acceleration = VectorMath.mult(1/m, force);
+		    accelerationSum.add(acceleration);
+		}
+		
+		this.a.set(accelerationSum);
+	}
+	
+	private void calculateEnergy() {
 		E_kin = 0.5 * m * v.abs() * v.abs();
 		E_rot = 0.5 * I * omega * omega;
-		E_rb = E_kin + E_rot;
+		E_rb = E_kin + E_rot;		
 	}
 
 	public void collisionWithRigidBodyCheck(AfterEventDescription aed, RigidBody r2, double t,
