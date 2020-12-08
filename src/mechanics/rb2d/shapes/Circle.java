@@ -38,4 +38,10 @@ public class Circle extends AbstractShape {
 		return new Vector2D(r.x * cos(rot) - r.y * sin(rot), r.x * sin(rot) + r.y * cos(rot));
 	}
 
+	@Override
+	public double getI(double m) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

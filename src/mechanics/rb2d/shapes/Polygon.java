@@ -22,4 +22,10 @@ public class Polygon extends AbstractShape{
 					position.y + sin(phi) * e.x - cos(phi) * e.y);
 		tvg.endShape();
 	}
+
+	@Override
+	public double getI(double m) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
