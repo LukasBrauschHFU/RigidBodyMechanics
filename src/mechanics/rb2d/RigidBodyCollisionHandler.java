@@ -7,7 +7,7 @@ import static java.lang.Math.*;
 
 public class RigidBodyCollisionHandler implements Runnable {
 
-	private double k = 1;
+	private double k = 0.7;
 	private RigidBody rb1;
 	private RigidBody rb2;
 	private Impactpoint ip;
@@ -36,6 +36,15 @@ public class RigidBodyCollisionHandler implements Runnable {
 
 		Vector2D v1r = rotateVector2D(rb1.v, rot);
 		Vector2D v2r = rotateVector2D(rb2.v, rot);
+		
+		//Zustandsbestimmung nach Stoss
+		if((Math.abs(v1r.x)+(Math.abs(v2r.x)) < 0.03)) {
+			rb1.state = BodyState.STOPPED;
+			rb2.state = BodyState.STOPPED;
+		}
+		System.out.println();
+		System.out.println(v1r.x);
+		System.out.println(v2r.x);
 
 		// 2. Berechnung der neuen Größen im Stoßkoordinatensystem
 		double a1 = -r1mr.y;
@@ -44,14 +53,16 @@ public class RigidBodyCollisionHandler implements Runnable {
 		double Fx = impulseFx(v1r.x, v2r.x, a1, a2);
 
 		Vector2D V1r = new Vector2D(v1r.x - (Fx / rb1.m), v1r.y);
-		Vector2D V2r = new Vector2D(v2r.x + (Fx / rb2.m), v2r.y);
+		Vector2D V2r = new Vector2D(v2r.x + (Fx / rb2.m), v2r.y);	
 
 		double Omega1 = rb1.omega + ((a1 * Fx) / rb1.I);
 		double Omega2 = rb2.omega - ((a2 * Fx) / rb2.I);
+		
 
 		// 3. Ruecktransformation ins Inertialsystem
 		Vector2D V1r_ = rotateVector2D(V1r, -rot);
 		Vector2D V2r_ = rotateVector2D(V2r, -rot);
+		
 
 		// 4. Setzen der neuen Werte
 

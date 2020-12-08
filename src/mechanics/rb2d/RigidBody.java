@@ -19,16 +19,18 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.sun.prism.impl.ps.BaseShaderContext.SpecialShaderType;
+
 public class RigidBody {
 
 	@V(unit = "kg")
 	public double m;
 	@V(unit = "m", derivative = "v")
-	public Vector2D r = new Vector2D();
+	public Vector2D r;
 	@V(unit = "m/s", derivative = "a")
-	public Vector2D v = new Vector2D();
+	public Vector2D v;
 	@V(unit = "m/s^2")
-	public Vector2D a = new Vector2D();
+	public Vector2D a;
 
 	@V(unit = "kg m^2")
 	public double I;
@@ -45,15 +47,15 @@ public class RigidBody {
 	public double E_rot;
 	@V(unit = "kg*m/s")
 	public double E_rb;
-	
+
 	@Ignore
 	public Map<String, Vector2D> forces;
-	
+
 	@Ignore
 	public int color = Color.make(0.5, 0.5, 0.5);
 	@Ignore
 	public AbstractShape shape;
-	@Ignore
+	
 	public BodyState state;
 	@Ignore
 	public boolean visible = true;
@@ -61,79 +63,75 @@ public class RigidBody {
 	public double t_before = 0;
 	@Ignore
 	public RigidBody impactPartner_before;
-	
+
 	public boolean dynamic;
 
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			AbstractShape shape) {
+		this(m, r, v, a, I, phi, omega, alpha, true, shape);
+	}
+
+	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
+			boolean dynamic, AbstractShape shape) {
 		this.m = m;
 		this.r = r;
 		this.v = v;
-		this.a = a;
+		this.a = new Vector2D(0, -9.81);
 		this.I = I;
 		this.phi = phi;
 		this.omega = omega;
 		this.alpha = alpha;
 		this.shape = shape;
 		this.state = BodyState.FLYING;
-		this.dynamic = false;
 		this.forces = new HashMap<String, Vector2D>();
-	}
-	
-	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
-			AbstractShape shape, boolean dynamic) {
-		this(m, r, v, a, I, phi, omega, alpha, shape);
 		this.dynamic = dynamic;
 	}
 
 	public void f(double t, double dt) {
-		this.calculateAcceleration();
-		this.calculateEnergy();
-	}
-	
-	private void calculateAcceleration() {
-		Vector2D accelerationSum = new Vector2D(0,0);
-		Collection<Vector2D> forcesCollection = forces.values();
-		Iterator<Vector2D> iterator = forcesCollection.iterator();
- 
-		while (iterator.hasNext()) {
-			Vector2D force = iterator.next();
-			Vector2D acceleration = VectorMath.mult(1/m, force);
-		    accelerationSum.add(acceleration);
+		if (!dynamic) {
+			a.set(0, 0);
 		}
-		
-		this.a.set(accelerationSum);
+		if(state == BodyState.STOPPED) {
+			v.set(0,0);
+			a.set(0,0);
+			omega = 0;
+			alpha = 0;
+		}
 	}
-	
-	private void calculateEnergy() {
-		E_kin = 0.5 * m * v.abs() * v.abs();
-		E_rot = 0.5 * I * omega * omega;
-		E_rb = E_kin + E_rot;		
-	}
+
+//	public void collisionWithRigidBodyCheck(AfterEventDescription aed, RigidBody r2, double t,
+//			RigidBody[] rigidBodies) {
+//		double r1_t_before = Math.round(this.t_before * 10e3) * 10e-3;
+//		double r2_t_before = Math.round(r2.t_before * 10e3) * 10e-3;
+//		double t_rounded = Math.round(t * 10e3) * 10e-3;
+//
+//		if (this == r2.impactPartner_before && r2 == this.impactPartner_before) {
+//			if ((r1_t_before == 0 || r2_t_before == 0) || (t_rounded != r1_t_before && t_rounded != r2_t_before)) {
+//				if (this.in(r2)) {
+//					this.impactPartner_before = r2;
+//					r2.impactPartner_before = this;
+//					this.t_before = t;
+//					r2.t_before = t;
+//					Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
+//					aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
+//				}
+//			}
+//		} else if (this.in(r2)) {
+//			this.impactPartner_before = r2;
+//			r2.impactPartner_before = this;
+//			this.t_before = t;
+//			r2.t_before = t;
+//			Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
+//			aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
+//		}
+//
+//	}
 
 	public void collisionWithRigidBodyCheck(AfterEventDescription aed, RigidBody r2, double t,
 			RigidBody[] rigidBodies) {
-		double r1_t_before = Math.round(this.t_before * 10e3) * 10e-3;
-		double r2_t_before = Math.round(r2.t_before * 10e3) * 10e-3;
-		double t_rounded = Math.round(t * 10e3) * 10e-3;
 
-		if (this == r2.impactPartner_before && r2 == this.impactPartner_before) {
-			if ((r1_t_before == 0 || r2_t_before == 0) || (t_rounded != r1_t_before && t_rounded != r2_t_before)) {
-//				System.out.println("hier");
-				if (this.in(r2)) {
-					this.impactPartner_before = r2;
-					r2.impactPartner_before = this;
-					this.t_before = t;
-					r2.t_before = t;
-					Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
-					aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
-				}
-			}
-		}else if (this.in(r2)) {
-			this.impactPartner_before = r2;
-			r2.impactPartner_before = this;
-			this.t_before = t;
-			r2.t_before = t;
+		if (this.in(r2)) {
+
 			Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
 			aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
 		}
