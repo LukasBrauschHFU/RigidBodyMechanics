@@ -5,11 +5,9 @@ import static java.lang.Math.sin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 import de.physolator.usr.components.Vector2D;
-import de.physolator.usr.components.VectorMath;
 import de.physolator.usr.tvg.Shape;
 import de.physolator.usr.tvg.TVG;
 
@@ -58,9 +56,7 @@ public class Polygon extends AbstractShape{
 		for(Vector2D vertex: vertices) {
 			vertex.sub(centroid);
 		}
-		
-		
-		
+				
 		return momentOfInertia;
 	}
 

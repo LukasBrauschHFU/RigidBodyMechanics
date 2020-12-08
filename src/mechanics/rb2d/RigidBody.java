@@ -13,13 +13,6 @@ import mechanics.rb2d.shapes.Polygon;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import com.sun.prism.impl.ps.BaseShaderContext.SpecialShaderType;
 
 public class RigidBody {
 
@@ -169,13 +162,10 @@ public class RigidBody {
 			return new Impactpoint(impactPoint, impactEdge);
 		} else if (Circle.class.isAssignableFrom(this.shape.getClass())
 				&& Polygon.class.isAssignableFrom(r2.shape.getClass())) {
-			Circle circleShape_r1 = (Circle) this.shape;
 			Polygon polygonShape_r2 = (Polygon) r2.shape;
 
 			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r2.vertices, r2.phi, r2.r);
 			Line2D.Double[] edges = getEdges(vertices);
-
-			double r = circleShape_r1.radius;
 
 			double smallestDistanceToLine = Double.MAX_VALUE;
 			Line2D.Double impactEdge = edges[0];
@@ -208,12 +198,9 @@ public class RigidBody {
 		} else if (Polygon.class.isAssignableFrom(this.shape.getClass())
 				&& Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Polygon polygonShape_r1 = (Polygon) this.shape;
-			Circle circleShape_r2 = (Circle) r2.shape;
 
 			Point2D.Double[] vertices = verticesToInertialSystem(polygonShape_r1.vertices, this.phi, this.r);
 			Line2D.Double[] edges = getEdges(vertices);
-
-			double r = circleShape_r2.radius;
 
 			double smallestDistanceToLine = Double.MAX_VALUE;
 			Line2D.Double impactEdge = edges[0];
