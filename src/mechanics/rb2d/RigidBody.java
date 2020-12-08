@@ -49,9 +49,6 @@ public class RigidBody {
 	public double E_rb;
 
 	@Ignore
-	public Map<String, Vector2D> forces;
-
-	@Ignore
 	public int color = Color.make(0.5, 0.5, 0.5);
 	@Ignore
 	public AbstractShape shape;
@@ -83,8 +80,11 @@ public class RigidBody {
 		this.alpha = alpha;
 		this.shape = shape;
 		this.state = BodyState.FLYING;
-		this.forces = new HashMap<String, Vector2D>();
 		this.dynamic = dynamic;
+	}
+	
+	public RigidBody(AbstractShape shape, double m, Vector2D r, Vector2D v, Vector2D a, double phi, double omega, double alpha) {
+		this(m, r, v, a, shape.getI(m), phi, omega, alpha, true, shape);
 	}
 
 	public void f(double t, double dt) {
@@ -98,34 +98,6 @@ public class RigidBody {
 			alpha = 0;
 		}
 	}
-
-//	public void collisionWithRigidBodyCheck(AfterEventDescription aed, RigidBody r2, double t,
-//			RigidBody[] rigidBodies) {
-//		double r1_t_before = Math.round(this.t_before * 10e3) * 10e-3;
-//		double r2_t_before = Math.round(r2.t_before * 10e3) * 10e-3;
-//		double t_rounded = Math.round(t * 10e3) * 10e-3;
-//
-//		if (this == r2.impactPartner_before && r2 == this.impactPartner_before) {
-//			if ((r1_t_before == 0 || r2_t_before == 0) || (t_rounded != r1_t_before && t_rounded != r2_t_before)) {
-//				if (this.in(r2)) {
-//					this.impactPartner_before = r2;
-//					r2.impactPartner_before = this;
-//					this.t_before = t;
-//					r2.t_before = t;
-//					Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
-//					aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
-//				}
-//			}
-//		} else if (this.in(r2)) {
-//			this.impactPartner_before = r2;
-//			r2.impactPartner_before = this;
-//			this.t_before = t;
-//			r2.t_before = t;
-//			Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
-//			aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
-//		}
-//
-//	}
 
 	public void collisionWithRigidBodyCheck(AfterEventDescription aed, RigidBody r2, double t,
 			RigidBody[] rigidBodies) {

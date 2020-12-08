@@ -40,8 +40,7 @@ public class Circle extends AbstractShape {
 
 	@Override
 	public double getI(double m) {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new RuntimeException();
 	}
 
 }
