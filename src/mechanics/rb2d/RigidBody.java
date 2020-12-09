@@ -7,6 +7,7 @@ import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.components.VectorMath;
 import de.physolator.usr.util.Color;
+import geometry.Polygon2D;
 import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
@@ -299,7 +300,38 @@ public class RigidBody {
 	}
 	
 	public boolean extendedIn(RigidBody rb) {
-		return this.in(rb);
+		if(this.in(rb) == true) {
+			return true;
+		}
+		boolean in = false; 
+		Polygon p1 = (Polygon) this.shape;
+		Polygon p2 = (Polygon) rb.shape;
+		Point2D.Double[] vertices1 = verticesToInertialSystem(p1.vertices, this.phi, this.r);
+		Point2D.Double[] vertices2 = verticesToInertialSystem(p2.vertices, rb.phi, rb.r);
+		double[] xPoints1 = new double[vertices1.length];
+		double[] yPoints1 = new double[vertices1.length];
+		for(int i = 0; i < vertices1.length; i++) {
+			xPoints1[i] = vertices1[i].x;
+			yPoints1[i] = vertices1[i].y;
+		}
+		double[] xPoints2 = new double[vertices2.length];
+		double[] yPoints2 = new double[vertices2.length];
+		for(int i = 0; i < vertices2.length; i++) {
+			xPoints2[i] = vertices2[i].x;
+			yPoints2[i] = vertices2[i].y;
+		}
+		Polygon2D rb1 = new Polygon2D(xPoints1, yPoints1, xPoints1.length);
+		Polygon2D rb2 = new Polygon2D(xPoints2, yPoints2, xPoints2.length);
+		for(Point2D.Double p : vertices1) {
+			if(rb2.contains(p))
+				return true; 
+		}
+		for(Point2D.Double p : vertices2) {
+			if(rb1.contains(p))
+				return true; 
+		}
+		
+		return in;
 	}
 
 	private Line2D.Double[] getEdges(Point2D.Double[] points) {
