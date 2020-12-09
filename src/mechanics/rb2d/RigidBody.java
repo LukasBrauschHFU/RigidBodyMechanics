@@ -66,7 +66,7 @@ public class RigidBody {
 		this.m = m;
 		this.r = r;
 		this.v = v;
-		this.a = new Vector2D(0, -9.81);
+		this.a = new Vector2D(0, 0);
 		this.I = I;
 		this.phi = phi;
 		this.omega = omega;
