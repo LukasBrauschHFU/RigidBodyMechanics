@@ -28,13 +28,15 @@ public class RigidBodiesPS extends PhysicalSystem {
 	private void test12() {
 		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 		MyRandom random = new MyRandom();
-		while(rigidBodies.size() < 10) {
-			RigidBody rb = new RigidBody(RandomPolygonBuilder.getPolygon((int)random.getNextHalfNormalDistribution(3, 4)), 1, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0), 0, 0, 0);
+		while(rigidBodies.size() < 9) {
+			RigidBody rb = new RigidBody(RandomPolygonBuilder.getPolygon((int)random.getNextHalfNormalDistribution(3, 4)), 1, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, -9), 0, 0, 0);
 			while(rbIntersects(rb, rigidBodies)) {
-				rb.r.set(random.nextGaussian(2), random.nextGaussian(0.5));
+				rb.r.set(random.nextGaussian(2.2), random.nextGaussian(1.5));
 			}
 			rigidBodies.add(rb);
 		}
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -5), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, -0.01, 0, 0, false, new Rectangle(10.5, 1)));
 		
 		this.rigidBodies = new RigidBody[rigidBodies.size()];
 		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
@@ -320,7 +322,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	@Override
 	public void initGraphicsComponents(GraphicsComponents g, Structure s, Recorder r, SimulationParameters sp) {
 		MechanicsTVG mTVG = new MechanicsTVG(this, s, r);
-		mTVG.geometry.setUserArea(-3, 3, -3, 3);
+		mTVG.geometry.setUserArea(-6, 6, -5, 3);
 		mTVG.velocityScaling = 100;
 		mTVG.accelerationScaling = 10;
 		mTVG.angularVelocityScaling = 0.2;
