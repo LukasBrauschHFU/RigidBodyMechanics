@@ -74,6 +74,7 @@ public class RigidBody {
 		this.shape = shape;
 		this.state = BodyState.FLYING;
 		this.dynamic = dynamic;
+		this.I = this.shape.getI(m);
 	}
 	
 	public RigidBody(AbstractShape shape, double m, Vector2D r, Vector2D v, Vector2D a, double phi, double omega, double alpha) {

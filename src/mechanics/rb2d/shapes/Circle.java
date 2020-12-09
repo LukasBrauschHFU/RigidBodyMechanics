@@ -40,7 +40,7 @@ public class Circle extends AbstractShape {
 
 	@Override
 	public double getI(double m) {
-		throw new RuntimeException();
+		return 0.5;
 	}
 
 }

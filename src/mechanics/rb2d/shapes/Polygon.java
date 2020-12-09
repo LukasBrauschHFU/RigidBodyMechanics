@@ -19,7 +19,7 @@ import geometry.Polygon2D;
 
 public class Polygon extends AbstractShape{
 	public Vector2D[] vertices;
-	private double precision = 0.01;
+	private double precision = 0.02;
 
 	public Polygon(Vector2D[] vertexList) {
 		vertices = vertexList;

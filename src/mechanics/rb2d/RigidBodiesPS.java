@@ -19,13 +19,34 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		testSetCentroid();
+		test9();
 	}
 
-	private void testSetCentroid() {
+	private void test9() {
 		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
-		Polygon polygon = new Polygon(new Vector2D[] {new Vector2D(1,1),new Vector2D(1,2),new Vector2D(2,2),new Vector2D(2,1)});
-		rigidBodies.add(new RigidBody(polygon, 1, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0), 0, 0, 0));
+
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -6), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, -0.01, 0, 0, false, new Rectangle(10.5, 1)));
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, 6), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0.01, 0, 0, false, new Rectangle(10.5, 1)));
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(-6, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, Math.PI / 2 - 0.01, 0, 0, false, new Rectangle(10.5, 1)));
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(6, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, Math.PI / 2 + 0.01, 0, 0, false, new Rectangle(10.5, 1)));
+
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, Math.PI / 8, 0, 0, false, new Rectangle(2, 1)));
+
+		rigidBodies.add(new RigidBody(1.5, new Vector2D(-3.5, 0.5), new Vector2D(0, -0.5), new Vector2D(0, 0), 0.4,
+				Math.PI / 2, -0.4, 0, new Rectangle()));
+
+
+
+		rigidBodies
+				.add(new RigidBody(5, new Vector2D(3, 3), new Vector2D(-0.5, 0), new Vector2D(0, 0), 10, 0, -0.1, 0,
+						new Polygon(new Vector2D[] { new Vector2D(-1.5, 1.5), new Vector2D(1.5, 1.5),
+								new Vector2D(1.5, -1.5), new Vector2D(-1.5, -1.5), new Vector2D(-1, -1),
+								new Vector2D(1, -1), new Vector2D(1, 1), new Vector2D(-1, 1) })));
 
 		this.rigidBodies = new RigidBody[rigidBodies.size()];
 		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
