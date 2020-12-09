@@ -297,6 +297,10 @@ public class RigidBody {
 		}
 		return false;
 	}
+	
+	public boolean extendedIn(RigidBody rb) {
+		return this.in(rb);
+	}
 
 	private Line2D.Double[] getEdges(Point2D.Double[] points) {
 		Line2D.Double[] edges = new Line2D.Double[points.length];
