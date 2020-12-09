@@ -78,8 +78,13 @@ public class Polygon extends AbstractShape{
 	}
 
 	private double getMomentOfInertia(double m, Vector2D centroid, List<Vector2D> pointsInsidePolygon) {
-		// TODO Auto-generated method stub
-		return 1;
+		double pointMass = m / pointsInsidePolygon.size();
+		double I = 0;
+		for(Vector2D point : pointsInsidePolygon) {
+			double r = VectorMath.dist(centroid, point);
+			I += (pointMass * (r * r));
+		}
+		return I;
 	}
 
 	private Vector2D getCentroid(List<Vector2D> pointsInsidePolygon) {
