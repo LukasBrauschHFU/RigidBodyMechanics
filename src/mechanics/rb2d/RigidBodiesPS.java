@@ -1,5 +1,6 @@
 package mechanics.rb2d;
 
+import mechanics.rb2d.misc.RandomPolygonBuilder;
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
 import mechanics.rb2d.shapes.Rectangle;
@@ -19,7 +20,18 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test11();
+		test12();
+	}
+
+	private void test12() {
+		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
+
+		rigidBodies.add(new RigidBody(1, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, 0, 0, 0, false, RandomPolygonBuilder.getPolygon(10)));
+
+		this.rigidBodies = new RigidBody[rigidBodies.size()];
+		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
+		
 	}
 
 	private void test11() {

@@ -11,7 +11,7 @@ import mechanics.rb2d.shapes.Polygon;
 
 public class RandomPolygonBuilder {
 	
-	public Polygon getPolygon(int n) {
+	public static Polygon getPolygon(int n) {
 		List<Point2D.Double> polygonPoints = RandomPolygon.generate_polygon(n);
 		Vector2D[] vertices = new Vector2D[polygonPoints.size()];
 		for(int i = 0; i < polygonPoints.size(); i++) {
