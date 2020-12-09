@@ -45,7 +45,7 @@ public class RigidBody {
 	public int color = Color.make(0.5, 0.5, 0.5);
 	@Ignore
 	public AbstractShape shape;
-	
+
 	public BodyState state;
 	@Ignore
 	public boolean visible = true;
@@ -66,7 +66,7 @@ public class RigidBody {
 		this.m = m;
 		this.r = r;
 		this.v = v;
-		this.a = new Vector2D(0, -9.81);
+		this.a = new Vector2D(0, 0);
 		this.I = I;
 		this.phi = phi;
 		this.omega = omega;
@@ -75,18 +75,22 @@ public class RigidBody {
 		this.state = BodyState.FLYING;
 		this.dynamic = dynamic;
 	}
-	
-	public RigidBody(AbstractShape shape, double m, Vector2D r, Vector2D v, Vector2D a, double phi, double omega, double alpha) {
+
+	public RigidBody(AbstractShape shape, double m, Vector2D r, Vector2D v, Vector2D a, double phi, double omega,
+			double alpha) {
 		this(m, r, v, a, shape.getI(m), phi, omega, alpha, true, shape);
 	}
 
 	public void f(double t, double dt) {
+		E_kin = 0.5 * m * v.abs() * v.abs();
+		E_rot = 0.5 * I * omega * omega;
+		E_rb = E_kin * E_rot;
 		if (!dynamic) {
 			a.set(0, 0);
 		}
-		if(state == BodyState.STOPPED) {
-			v.set(0,0);
-			a.set(0,0);
+		if (state == BodyState.STOPPED) {
+			v.set(0, 0);
+			a.set(0, 0);
 			omega = 0;
 			alpha = 0;
 		}
