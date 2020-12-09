@@ -5,17 +5,21 @@ import static java.lang.Math.sin;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 
 import de.physolator.usr.components.Vector2D;
+import de.physolator.usr.components.VectorMath;
 import de.physolator.usr.tvg.Shape;
 import de.physolator.usr.tvg.TVG;
 import geometry.Polygon2D;
 
 public class Polygon extends AbstractShape{
 	public Vector2D[] vertices;
-	private double precision = 0.001;
+	private double precision = 0.01;
 
 	public Polygon(Vector2D[] vertexList) {
 		vertices = vertexList;
@@ -32,53 +36,62 @@ public class Polygon extends AbstractShape{
 
 	@Override
 	public double getI(double m) {
-		TreeSet<Double> verticesX = new TreeSet<Double>();
-		TreeSet<Double> verticesY = new TreeSet<Double>();
-		double[] verticesXArray = new  double[verticesX.size()];
-		double[] verticesYArray = new  double[verticesY.size()];
+		LinkedList<Double> verticesX = new LinkedList<Double>();
+		LinkedList<Double> verticesY = new LinkedList<Double>();
+		for (Vector2D vertex : vertices) {
+			verticesX.add(vertex.x);
+			verticesY.add(vertex.y);
+		}
+		double[] verticesXArray = new double[verticesX.size()];
+		double[] verticesYArray = new double[verticesY.size()];
 		for (int i = 0; i < vertices.length; i++) {
 			Vector2D vertex = vertices[i];
-			verticesX.add(vertex.x);
 			verticesXArray[i] = vertex.x;
-			verticesY.add(vertex.y);
 			verticesYArray[i] = vertex.y;
 		}
-		double maxX = verticesX.first();
-		double minX = verticesX.last();
-		double maxY = verticesY.first();
-		double minY = verticesY.last();
+		Collections.sort(verticesX);
+		Collections.sort(verticesY);
+		double minX = verticesX.getFirst();
+		double maxX = verticesX.getLast();
+		double minY = verticesY.getFirst();
+		double maxY = verticesY.getLast();
 
 		Vector2D gridPointer = new Vector2D(minX, minY);
 		List<Vector2D> pointsInsidePolygon = new ArrayList<Vector2D>();
+		Polygon2D polygon = new Polygon2D(verticesXArray, verticesYArray, verticesXArray.length);
+		
 		while (gridPointer.x <= maxX) {
+			gridPointer.y = minY;
 			while (gridPointer.y <= maxY) {
-				if (pointInsidePolygon(gridPointer, vertices, verticesXArray, verticesYArray))
+				if (pointInsidePolygon(gridPointer, vertices, polygon)) {
 					pointsInsidePolygon.add(new Vector2D(gridPointer.x, gridPointer.y));
+				}
 				gridPointer.y += precision;
 			}
+			gridPointer.x += precision;
 		}
-		
 		Vector2D centroid = getCentroid(pointsInsidePolygon);
-		double momentOfInertia = getMomentOfInertia(m, centroid, pointsInsidePolygon);
-		for(Vector2D vertex: vertices) {
+		for(Vector2D vertex: vertices)
 			vertex.sub(centroid);
-		}
 				
-		return momentOfInertia;
+		return getMomentOfInertia(m, centroid, pointsInsidePolygon);
 	}
 
 	private double getMomentOfInertia(double m, Vector2D centroid, List<Vector2D> pointsInsidePolygon) {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	private Vector2D getCentroid(List<Vector2D> pointsInsidePolygon) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector2D centroid = new Vector2D(0, 0);
+		for(Vector2D point : pointsInsidePolygon) {
+			centroid.add(point);
+		}
+		int k = pointsInsidePolygon.size();
+		return new Vector2D(centroid.x/k,centroid.y/k);
 	}
 
-	private boolean pointInsidePolygon(Vector2D gridPointer, Vector2D[] vertices, double[] xPoints, double[] yPoints) {
-		Polygon2D polygon = new Polygon2D(xPoints, yPoints, yPoints.length);	
+	private boolean pointInsidePolygon(Vector2D gridPointer, Vector2D[] vertices, Polygon2D polygon) {
 		return polygon.contains(gridPointer.x, gridPointer.y);
 	}
 }

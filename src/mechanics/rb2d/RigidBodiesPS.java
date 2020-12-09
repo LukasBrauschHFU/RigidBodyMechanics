@@ -19,7 +19,17 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test7_1();
+		testSetCentroid();
+	}
+
+	private void testSetCentroid() {
+		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
+		Polygon polygon = new Polygon(new Vector2D[] {new Vector2D(1,1),new Vector2D(1,2),new Vector2D(2,2),new Vector2D(2,1)});
+		rigidBodies.add(new RigidBody(polygon, 1, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0), 0, 0, 0));
+
+		this.rigidBodies = new RigidBody[rigidBodies.size()];
+		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
+		
 	}
 
 	private void test8() {
