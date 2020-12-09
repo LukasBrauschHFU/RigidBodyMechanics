@@ -8,7 +8,9 @@ import mechanics.tvg.MechanicsTVG;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import Mathematics.MyRandom;
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
 
@@ -25,9 +27,9 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 	private void test12() {
 		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
-
+		MyRandom random = new MyRandom();
 		rigidBodies.add(new RigidBody(1, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, 0, 0, 0, false, RandomPolygonBuilder.getPolygon(10)));
+				Double.MAX_VALUE, 0, 0, 0, false, RandomPolygonBuilder.getPolygon((int)random.getNextHalfNormalDistribution(3, 5))));
 
 		this.rigidBodies = new RigidBody[rigidBodies.size()];
 		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
@@ -305,7 +307,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 	@Override
 	public void initGraphicsComponents(GraphicsComponents g, Structure s, Recorder r, SimulationParameters sp) {
 		MechanicsTVG mTVG = new MechanicsTVG(this, s, r);
-		mTVG.geometry.setUserArea(-6, 6, -6, 6);
+		mTVG.geometry.setUserArea(-1, 1, -1, 1);
 		mTVG.velocityScaling = 100;
 		mTVG.accelerationScaling = 10;
 		mTVG.angularVelocityScaling = 0.2;
