@@ -11,6 +11,7 @@ import geometry.Polygon2D;
 import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
+import mechanics.rb2d.shapes.Triangle;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -56,7 +57,7 @@ public class RigidBody {
 	public RigidBody impactPartner_before;
 
 	public boolean dynamic;
-
+	
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			AbstractShape shape) {
 		this(m, r, v, a, I, phi, omega, alpha, true, shape);
