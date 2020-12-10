@@ -2,6 +2,7 @@ package mechanics.rb2d;
 
 import mechanics.rb2d.misc.RandomPolygonBuilder;
 import mechanics.rb2d.shapes.Circle;
+import mechanics.rb2d.shapes.Pentagon;
 import mechanics.rb2d.shapes.Polygon;
 import mechanics.rb2d.shapes.Rectangle;
 import mechanics.rb2d.shapes.Triangle;
@@ -30,9 +31,12 @@ public class RigidBodiesPS extends PhysicalSystem {
 		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 
 		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -2), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, -0.01, 0, 0, false, new Rectangle(10.5, 1)));
+				Double.MAX_VALUE, 0, 0, 0, false, new Rectangle(10.5, 1)));
 
-		rigidBodies.add(new RigidBody(new Triangle(5), 1, new Vector2D(0, 0), new Vector2D(), new Vector2D(0, -9.81),
+		rigidBodies.add(new RigidBody(new Triangle(1), 1, new Vector2D(-4, 0), new Vector2D(), new Vector2D(0, -9.81),
+				0, 0, 0));
+		
+		rigidBodies.add(new RigidBody(new Pentagon(2), 1, new Vector2D(0, 0), new Vector2D(), new Vector2D(0, -9.81),
 				0, 0, 0));
 
 		this.rigidBodies = new RigidBody[rigidBodies.size()];
