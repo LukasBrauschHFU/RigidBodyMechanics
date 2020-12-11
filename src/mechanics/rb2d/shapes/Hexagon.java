@@ -27,11 +27,5 @@ public class Hexagon extends Polygon {
 
 		this.vertices = new Vector2D[] { VectorMath.mult(-1, a), VectorMath.mult(-1, b), VectorMath.mult(-1, c),
 				VectorMath.mult(-1, d), VectorMath.mult(-1, e), VectorMath.mult(-1, f) };
-
-		System.out.println(a);
-		System.out.println(b);
-		System.out.println(c);
-		System.out.println(d);
-		System.out.println(e);
 	}
 }

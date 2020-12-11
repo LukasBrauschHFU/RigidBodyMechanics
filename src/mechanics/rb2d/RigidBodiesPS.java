@@ -11,8 +11,6 @@ import mechanics.tvg.MechanicsTVG;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import Mathematics.MyRandom;
 import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
@@ -25,10 +23,10 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test13();
+		test_tri_penta_hexa();
 	}
 
-	private void test13() {
+	private void test_tri_penta_hexa() {
 		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 
 		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -2), new Vector2D(0, 0), new Vector2D(0, 0),
@@ -47,7 +45,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 	}
 
-	private void test12() {
+	private void test_random() {
 		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 		MyRandom random = new MyRandom();
 		while (rigidBodies.size() < 9) {

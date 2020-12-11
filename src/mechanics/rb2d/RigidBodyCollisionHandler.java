@@ -42,9 +42,6 @@ public class RigidBodyCollisionHandler implements Runnable {
 			rb1.state = BodyState.STOPPED;
 			rb2.state = BodyState.STOPPED;
 		}
-		System.out.println();
-		System.out.println(v1r.x);
-		System.out.println(v2r.x);
 
 		// 2. Berechnung der neuen Größen im Stoßkoordinatensystem
 		double a1 = -r1mr.y;

@@ -11,7 +11,6 @@ import geometry.Polygon2D;
 import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Polygon;
-import mechanics.rb2d.shapes.Triangle;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
