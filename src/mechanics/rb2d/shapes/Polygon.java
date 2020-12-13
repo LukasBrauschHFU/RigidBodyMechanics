@@ -3,14 +3,10 @@ package mechanics.rb2d.shapes;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeSet;
-
 import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.components.VectorMath;
 import de.physolator.usr.tvg.Shape;

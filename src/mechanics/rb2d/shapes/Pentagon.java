@@ -1,7 +1,5 @@
 package mechanics.rb2d.shapes;
 
-import java.util.Vector;
-
 import de.physolator.usr.components.Vector2D;
 import de.physolator.usr.components.VectorMath;
 
@@ -12,10 +10,6 @@ public class Pentagon extends Polygon {
 	public Pentagon() {
 		this(1);
 	}
-
-//	public Pentagon(double length) {
-//		this(length, (Math.sqrt(3) / 2) * length);
-//	}
 
 	public Pentagon(double length) {
 		super(null);
@@ -33,11 +27,5 @@ public class Pentagon extends Polygon {
 		Vector2D e = new Vector2D(-c.x, c.y);
 
 		this.vertices = new Vector2D[] {VectorMath.mult(-1, a), VectorMath.mult(-1, b), VectorMath.mult(-1, c), VectorMath.mult(-1, d), VectorMath.mult(-1, e) };
-
-		System.out.println(a);
-		System.out.println(b);
-		System.out.println(c);
-		System.out.println(d);
-		System.out.println(e);
 	}
 }

@@ -1,7 +1,5 @@
 package mechanics.rb2d.shapes;
 
-import java.util.Vector;
-
 import de.physolator.usr.components.Vector2D;
 
 public class Triangle extends Polygon {
