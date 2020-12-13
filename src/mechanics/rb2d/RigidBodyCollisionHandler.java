@@ -7,11 +7,12 @@ import static java.lang.Math.*;
 
 public class RigidBodyCollisionHandler implements Runnable {
 
-	private double k = 1;
+	private double k = 0.6;
 	private RigidBody rb1;
 	private RigidBody rb2;
 	private Impactpoint ip;
-
+	private boolean showInfo = true; 
+	
 	public RigidBodyCollisionHandler(RigidBody r1, RigidBody r2, Impactpoint ip) {
 		this.rb1 = r1;
 		this.rb2 = r2;
@@ -20,6 +21,13 @@ public class RigidBodyCollisionHandler implements Runnable {
 
 	@Override
 	public void run() {
+		if(showInfo) {
+			System.out.println("Collision between:");
+			System.out.println(rb1);
+			System.out.println(rb2);
+		}
+		
+		
 		Vector2D p = ip.impactPoint;
 		Vector2D collisionEdge = VectorMath.normalize(ip.impactEdge);
 
@@ -38,13 +46,12 @@ public class RigidBodyCollisionHandler implements Runnable {
 		Vector2D v2r = rotateVector2D(rb2.v, rot);
 		
 		//Zustandsbestimmung nach Stoss
-		if((Math.abs(v1r.x)+(Math.abs(v2r.x)) < 0.03)) {
+		if((Math.abs(v1r.x)+(Math.abs(v2r.x)) < 0.001)) {
 			rb1.state = BodyState.STOPPED;
 			rb2.state = BodyState.STOPPED;
+			if(this.showInfo)
+				System.out.println("Stopped: " + "v1r.x=" + v1r.x + ", v2r.x=" + v2r.x);
 		}
-		System.out.println();
-		System.out.println(v1r.x);
-		System.out.println(v2r.x);
 
 		// 2. Berechnung der neuen Größen im Stoßkoordinatensystem
 		double a1 = -r1mr.y;

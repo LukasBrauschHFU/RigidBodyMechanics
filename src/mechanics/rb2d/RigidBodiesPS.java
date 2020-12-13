@@ -1,6 +1,7 @@
 package mechanics.rb2d;
 
 import mechanics.rb2d.misc.RandomPolygonBuilder;
+import mechanics.rb2d.shapes.AbstractShape;
 import mechanics.rb2d.shapes.Circle;
 import mechanics.rb2d.shapes.Pentagon;
 import mechanics.rb2d.shapes.Polygon;
@@ -24,7 +25,12 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test13();
+		test12();
+	}
+
+	private void test14() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void test13() {
@@ -46,18 +52,18 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 	private void test12() {
 		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -5), new Vector2D(0, 0), new Vector2D(0, 0),
+				Double.MAX_VALUE, -0.1, 0, 0, false, new Rectangle(10.5, 1)));
 		MyRandom random = new MyRandom();
-		while (rigidBodies.size() < 9) {
-			RigidBody rb = new RigidBody(
-					RandomPolygonBuilder.getPolygon((int) random.getNextHalfNormalDistribution(3, 4)), 1,
-					new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, -9), 0, 0, 0);
+		while (rigidBodies.size() < 2) {
+			AbstractShape shape = RandomPolygonBuilder.getPolygon((int) random.getNextHalfNormalDistribution(3, 4));
+			RigidBody rb = new RigidBody(shape, 1, new Vector2D(0, 0), new Vector2D(0, 0), new Vector2D(0, -9), 0, 0, 0);
+			
 			while (rbIntersects(rb, rigidBodies)) {
 				rb.r.set(random.nextGaussian(2.2), random.nextGaussian(1.5));
 			}
 			rigidBodies.add(rb);
 		}
-		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -5), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, -0.01, 0, 0, false, new Rectangle(10.5, 1)));
 
 		this.rigidBodies = new RigidBody[rigidBodies.size()];
 		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
@@ -143,7 +149,7 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 		Polygon complexStructure = new Polygon(
 				new Vector2D[] { new Vector2D(-1.5, 1.5), new Vector2D(1.5, 1.5), new Vector2D(1.5, -1.5),
-						new Vector2D(-1.5, -1.5), new Vector2D(-1, -1), new Vector2D(1, -1), new Vector2D(-1, 1) });
+						new Vector2D(-1.5, -1.5), new Vector2D(-1, -1), new Vector2D(1, -1), new Vector2D(-1, 1), new Vector2D(1, 1) });
 		rigidBodies.add(new RigidBody(complexStructure, 5, new Vector2D(3, 3), new Vector2D(-0.5, 0),
 				new Vector2D(0, 0), 0, -0.1, 0));
 

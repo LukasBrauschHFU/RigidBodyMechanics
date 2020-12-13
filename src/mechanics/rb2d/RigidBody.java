@@ -17,6 +17,11 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 public class RigidBody {
+	
+	@Ignore
+	private static int count; 
+	@Ignore
+	public int uid; 
 
 	@V(unit = "kg")
 	public double m;
@@ -65,6 +70,8 @@ public class RigidBody {
 
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			boolean dynamic, AbstractShape shape) {
+		count++;
+		this.uid = count;
 		this.m = m;
 		this.r = r;
 		this.v = v;
@@ -355,5 +362,20 @@ public class RigidBody {
 		double x = translation.x + cos(phi) * vertex.x + sin(phi) * vertex.y;
 		double y = translation.y + sin(phi) * vertex.x - cos(phi) * vertex.y;
 		return new Point2D.Double(x, y);
+	}
+
+	@Override
+	public String toString() {
+		String rbText = "(";
+		rbText += ("[uid=" + this.uid + "], ");
+		rbText += ("[m=" + m + "], "); 
+		rbText += ("[r=" + r + "], ");
+		rbText += ("[v=" + v + "], "); 
+		rbText += ("[a=" + a + "], ");
+		rbText += ("[I=" + m + "], "); 
+		rbText += ("[phi=" + phi + "], ");
+		rbText += ("[omega=" + omega + "], "); 
+		rbText += ("[alpha=" + alpha + "]"); 
+		return rbText + ")";
 	}
 }
