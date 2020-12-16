@@ -95,10 +95,4 @@ public class Polygon extends AbstractShape{
 	private boolean pointInsidePolygon(Vector2D gridPointer, Vector2D[] vertices, Polygon2D polygon) {
 		return polygon.contains(gridPointer.x, gridPointer.y);
 	}
-	
-	@Override
-	public double getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

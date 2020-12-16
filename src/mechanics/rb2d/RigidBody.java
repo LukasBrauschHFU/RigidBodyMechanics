@@ -1,7 +1,6 @@
 package mechanics.rb2d;
 
 import static java.lang.Math.cos;
-import static java.lang.Math.signum;
 import static java.lang.Math.sin;
 
 import de.physolator.usr.*;
@@ -17,11 +16,11 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 public class RigidBody {
-
+	
 	@Ignore
-	private static int count;
+	private static int count; 
 	@Ignore
-	public int uid;
+	public int uid; 
 
 	@V(unit = "kg")
 	public double m;
@@ -48,27 +47,12 @@ public class RigidBody {
 	@V(unit = "kg*m/s")
 	public double E_rb;
 
-	@V(unit = "N")
-	public Vector2D Fg = new Vector2D();
-	@V(unit = "N")
-	public Vector2D Fh = new Vector2D();
-	@V(unit = "N")
-	public Vector2D Fr = new Vector2D();
-	@V(unit = "N")
-	public Vector2D Fn = new Vector2D();
-	@V(unit = "N")
-	public Vector2D Fres = new Vector2D();
-	@V(unit = "N")
-	public Vector2D Fhr = new Vector2D();
-
 	@Ignore
 	public int color = Color.make(0.5, 0.5, 0.5);
 	@Ignore
 	public AbstractShape shape;
 
 	public BodyState state;
-
-	public BodyDirection direction;
 	@Ignore
 	public boolean visible = true;
 	@Ignore
@@ -77,7 +61,7 @@ public class RigidBody {
 	public RigidBody impactPartner_before;
 
 	public boolean dynamic;
-
+	
 	public RigidBody(double m, Vector2D r, Vector2D v, Vector2D a, double I, double phi, double omega, double alpha,
 			AbstractShape shape) {
 		this(m, r, v, a, I, phi, omega, alpha, true, shape);
@@ -112,35 +96,11 @@ public class RigidBody {
 		if (!dynamic) {
 			a.set(0, 0);
 		}
-
 		if (state == BodyState.STOPPED) {
 			v.set(0, 0);
 			a.set(0, 0);
 			omega = 0;
 			alpha = 0;
-			direction = BodyDirection.NONE;
-		}
-		if (state == BodyState.ROLLING) {
-
-			Fr.x = Math.abs(Fr.x) * signum(-v.x);
-			Fr.y = Math.abs(Fr.y) * signum(-v.y);
-
-			if (direction == BodyDirection.LEFT) {
-				omega = v.abs() / shape.getRadius();
-			} else if (direction == BodyDirection.RIGHT) {
-				omega = -v.abs() / shape.getRadius();
-			}
-
-			if (Fh.abs() == 0) {
-				if (direction == BodyDirection.RIGHT && v.x <= 0.001)
-					state = BodyState.STOPPED;
-				else if (direction == BodyDirection.LEFT && v.x >= -0.001)
-					state = BodyState.STOPPED;
-
-			} else if (v.x > 0)
-				direction = BodyDirection.RIGHT;
-			else if (v.x < 0)
-				direction = BodyDirection.LEFT;
 		}
 	}
 
@@ -344,39 +304,39 @@ public class RigidBody {
 		}
 		return false;
 	}
-
+	
 	public boolean extendedIn(RigidBody rb) {
-		if (this.in(rb) == true) {
+		if(this.in(rb) == true) {
 			return true;
 		}
-		boolean in = false;
+		boolean in = false; 
 		Polygon p1 = (Polygon) this.shape;
 		Polygon p2 = (Polygon) rb.shape;
 		Point2D.Double[] vertices1 = verticesToInertialSystem(p1.vertices, this.phi, this.r);
 		Point2D.Double[] vertices2 = verticesToInertialSystem(p2.vertices, rb.phi, rb.r);
 		double[] xPoints1 = new double[vertices1.length];
 		double[] yPoints1 = new double[vertices1.length];
-		for (int i = 0; i < vertices1.length; i++) {
+		for(int i = 0; i < vertices1.length; i++) {
 			xPoints1[i] = vertices1[i].x;
 			yPoints1[i] = vertices1[i].y;
 		}
 		double[] xPoints2 = new double[vertices2.length];
 		double[] yPoints2 = new double[vertices2.length];
-		for (int i = 0; i < vertices2.length; i++) {
+		for(int i = 0; i < vertices2.length; i++) {
 			xPoints2[i] = vertices2[i].x;
 			yPoints2[i] = vertices2[i].y;
 		}
 		Polygon2D rb1 = new Polygon2D(xPoints1, yPoints1, xPoints1.length);
 		Polygon2D rb2 = new Polygon2D(xPoints2, yPoints2, xPoints2.length);
-		for (Point2D.Double p : vertices1) {
-			if (rb2.contains(p))
-				return true;
+		for(Point2D.Double p : vertices1) {
+			if(rb2.contains(p))
+				return true; 
 		}
-		for (Point2D.Double p : vertices2) {
-			if (rb1.contains(p))
-				return true;
+		for(Point2D.Double p : vertices2) {
+			if(rb1.contains(p))
+				return true; 
 		}
-
+		
 		return in;
 	}
 
@@ -407,14 +367,14 @@ public class RigidBody {
 	public String toString() {
 		String rbText = "(";
 		rbText += ("[uid=" + this.uid + "], ");
-		rbText += ("[m=" + m + "], ");
+		rbText += ("[m=" + m + "], "); 
 		rbText += ("[r=" + r + "], ");
-		rbText += ("[v=" + v + "], ");
+		rbText += ("[v=" + v + "], "); 
 		rbText += ("[a=" + a + "], ");
-		rbText += ("[I=" + m + "], ");
+		rbText += ("[I=" + m + "], "); 
 		rbText += ("[phi=" + phi + "], ");
-		rbText += ("[omega=" + omega + "], ");
-		rbText += ("[alpha=" + alpha + "]");
+		rbText += ("[omega=" + omega + "], "); 
+		rbText += ("[alpha=" + alpha + "]"); 
 		return rbText + ")";
 	}
 }

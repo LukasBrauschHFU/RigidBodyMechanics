@@ -39,10 +39,11 @@ public class MechanicsTVG extends TVG {
 			initPM2D(s);
 			initSP2D(s);
 		}
-		for (StructureElement s : structure.getSubstructures())
+		for (StructureElement s : structure.getSubstructures()) {
 			if (s.getType().isAssignableFrom(RigidBody.class)) {
 				dc2dl.add(new RigidBodyDC2D(this, s.getName(), (RigidBody) s.getObject()));
 			}
+		}
 	}
 
 	private StructureElement sub(StructureElement se, String suffix) {
@@ -68,14 +69,21 @@ public class MechanicsTVG extends TVG {
 		StructureElement r = sub(se, "r");
 		StructureElement v = sub(se, "v");
 		StructureElement a = sub(se, "a");
-		StructureElement Fh = sub(se, "Fh");
 		StructureElement Fr = sub(se, "Fr");
-		if (r == null || v == null || a == null || Fh == null || Fr == null)
+		StructureElement Fn = sub(se, "Fn");
+		StructureElement Fg = sub(se, "Fg");
+		StructureElement Fh = sub(se, "Fh");
+		StructureElement Fres = sub(se, "Fres");
+		StructureElement Fl = sub(se, "Fl");
+		if (r == null || v == null || a == null || Fr == null || Fh == null || Fres == null || Fg == null || Fn == null
+				|| Fl == null) {
 			return;
+		}
 		double m = subDoubleValue(se, "m", 0);
 		double radius = subDoubleValue(se, "radius", 0);
 		pms.add(new PM2D(se.getObject(), sub(r, "x"), sub(r, "y"), sub(v, "x"), sub(v, "y"), sub(a, "x"), sub(a, "y"),
-				sub(Fh, "x"), sub(Fh, "y"), sub(Fr, "x"), sub(Fr, "y"), m, radius, se.getTotalName()));
+				sub(Fr, "x"), sub(Fr, "y"), sub(Fn, "x"), sub(Fn, "y"), sub(Fg, "x"), sub(Fg, "y"), sub(Fh, "x"),
+				sub(Fh, "y"), sub(Fres, "x"), sub(Fres, "y"), m, radius, se.getTotalName()));
 	}
 
 	public void initSP2D(StructureElement se) {
@@ -98,14 +106,22 @@ public class MechanicsTVG extends TVG {
 				se.getTotalName()));
 	}
 
-	public void addPointMass(String x, String y, String vx, String vy, String ax, String ay, String name) {
+	public void addPointMass(String x, String y, String vx, String vy, String ax, String ay, String Frx, String Fry,
+			String Fnx, String Fny, String Fgx, String Fgy, String Fhx, String Fhy, String Fresx, String Fresy,
+			String name) {
 		pms.add(new PM2D(structure, structure.getStructureElement(x), structure.getStructureElement(y),
 				structure.getStructureElement(vx), structure.getStructureElement(vy), structure.getStructureElement(ax),
-				structure.getStructureElement(ay), 0, 0, name));
+				structure.getStructureElement(ay), structure.getStructureElement(Frx),
+				structure.getStructureElement(Fry), structure.getStructureElement(Fnx),
+				structure.getStructureElement(Fny), structure.getStructureElement(Fgx),
+				structure.getStructureElement(Fgy), structure.getStructureElement(Fhx),
+				structure.getStructureElement(Fhy), structure.getStructureElement(Fresx),
+				structure.getStructureElement(Fresy), 0, 0, name));
 	}
 
-	public void addPointMass(String x, String y, String vx, String vy, String ax, String ay) {
-		addPointMass(x, y, vx, vy, ax, ay, "");
+	public void addPointMass(String x, String y, String vx, String vy, String ax, String ay, String Frx, String Fry,
+			String Fnx, String Fny, String Fgx, String Fgy, String Fhx, String Fhy, String Fresx, String Fresy) {
+		addPointMass(x, y, vx, vy, ax, ay, "", Frx, Fry, Fnx, Fny, Fgx, Fgy, Fhx, Fhy, Fresx, Fresy);
 	}
 
 	// Parameters
@@ -114,7 +130,7 @@ public class MechanicsTVG extends TVG {
 	public boolean showLabels = true;
 
 	@Parameter(path = "mechanics")
-	public boolean showPath = false;
+	public boolean showPath = true;
 
 	@Parameter(path = "mechanics.translational movement")
 	@Slider(min = 1, max = 3000, step = 1)
@@ -147,14 +163,25 @@ public class MechanicsTVG extends TVG {
 	}
 
 	@Parameter(path = "mechanics.translational movement")
-	public boolean showFh = true;
+	public boolean showAccelerationX = true;
 
 	@Parameter(path = "mechanics.translational movement")
 	@Slider(min = 1, max = 30, step = 0.2)
-	public double FhScaling = 0.2;
+	public double accelerationXScaling = 0.2;
 
-	public boolean enabledFhScaling() {
-		return showFh;
+	public boolean enabledAccelerationXScaling() {
+		return showAccelerationX;
+	}
+
+	@Parameter(path = "mechanics.translational movement")
+	public boolean showAccelerationY = true;
+
+	@Parameter(path = "mechanics.translational movement")
+	@Slider(min = 1, max = 30, step = 0.2)
+	public double accelerationYScaling = 0.2;
+
+	public boolean enabledAccelerationYScaling() {
+		return showAccelerationY;
 	}
 
 	@Parameter(path = "mechanics.translational movement")
@@ -162,10 +189,65 @@ public class MechanicsTVG extends TVG {
 
 	@Parameter(path = "mechanics.translational movement")
 	@Slider(min = 1, max = 30, step = 0.2)
-	public double FrScaling = 0.2;
+	public double Fr = 0.2;
 
-	public boolean enabledFrScaling() {
+	public boolean enabledFr() {
 		return showFr;
+	}
+
+	@Parameter(path = "mechanics.translational movement")
+	public boolean showFn = true;
+
+	@Parameter(path = "mechanics.translational movement")
+	@Slider(min = 1, max = 30, step = 0.2)
+	public double FnScaling = 0.2;
+
+	public boolean enabledFn() {
+		return showFn;
+	}
+
+	@Parameter(path = "mechanics.translational movement")
+	public boolean showFg = true;
+
+	@Parameter(path = "mechanics.translational movement")
+	@Slider(min = 1, max = 30, step = 0.2)
+	public double FgScaling = 0.2;
+
+	public boolean enabledFg() {
+		return showFg;
+	}
+
+	@Parameter(path = "mechanics.translational movement")
+	public boolean showFh = true;
+
+	@Parameter(path = "mechanics.translational movement")
+	@Slider(min = 1, max = 30, step = 0.2)
+	public double FhScaling = 0.2;
+
+	public boolean enabledFh() {
+		return showFh;
+	}
+
+	@Parameter(path = "mechanics.translational movement")
+	public boolean showFres = true;
+
+	@Parameter(path = "mechanics.translational movement")
+	@Slider(min = 1, max = 30, step = 0.2)
+	public double FresScaling = 0.2;
+
+	public boolean enabledFres() {
+		return showFres;
+	}
+
+	@Parameter(path = "mechanics.translational movement")
+	public boolean showFl = true;
+
+	@Parameter(path = "mechanics.translational movement")
+	@Slider(min = 1, max = 30, step = 0.2)
+	public double FlScaling = 0.2;
+
+	public boolean enabledFl() {
+		return showFl;
 	}
 
 	@Parameter(path = "mechanics.translational movement")
@@ -261,17 +343,50 @@ public class MechanicsTVG extends TVG {
 		}
 	}
 
-	public void drawArrow(Vector2D r, Vector2D v, double f, int color, ArrowHead ah) {
-		style.strokeColor = standardStrokeColor;
+	public int pathColor = Colors.darkGrey;
+	public int standardStrokeColor = Color.mixColors(Colors.royalBlue, Colors.darkGrey, 0.8);
+	public int standardFillColor = Color.mixColors(standardStrokeColor, Colors.white, 0.4);
+	public int rigidBodyFillColor = 0xffb471ff;
+	public int rigidBodyStrokeColor = 0xBB7748ff;
+
+	public int standardVelocityStrokeColor = Colors.darkBlue;
+	public int standardVelocityFillColor = Colors.blue;
+
+	public int standardAccelerationStrokeColor = Colors.darkOrange;
+	public int standardAccelerationFillColor = Colors.orange;
+
+	public int standardForceStrokeColor = Colors.darkRed;
+	public int standardForceFillColor = Colors.red;
+
+	public void drawArrow(Vector2D r, Vector2D v, double f, ArrowType at) {
+		ArrowHead ah = null;
+		if (at == ArrowType.VELOCITY) {
+			style.strokeColor = standardVelocityStrokeColor;
+			style.fillColor = standardVelocityFillColor;
+			ah = ArrowHead.TRIANGLE;
+		} else if (at == ArrowType.ACCELERATION) {
+			style.strokeColor = standardAccelerationStrokeColor;
+			style.fillColor = standardAccelerationFillColor;
+			ah = ArrowHead.DOUBLE;
+		} else if (at == ArrowType.FORCE) {
+			style.strokeColor = standardForceStrokeColor;
+			style.fillColor = standardForceFillColor;
+			ah = ArrowHead.TRIANGLE;
+		}
+
 		final Vector2D zero2D = new Vector2D();
 		beginTransformationToPointPX(r);
-		double length = v.abs() * f;
+		double length = getLength(v, f);
 		double drawingLength = max(min(length, maxArrowLength), minArrowLength);
 		Vector2D direction = normalize(v);
 		if (length > minArrowLength)
 			drawLine(zero2D, mult(drawingLength, direction));
 		drawArrowHead(zero2D, mult(drawingLength, direction), ah);
 		endTransformation();
+	}
+
+	private double getLength(Vector2D v, double f) {
+		return v.abs() * f;
 	}
 
 	public void drawRotationBaseLine(Vector2D r, double radius) {
@@ -348,12 +463,6 @@ public class MechanicsTVG extends TVG {
 		return 5;
 	}
 
-	public int pathColor = Colors.darkGrey;
-	public int standardStrokeColor = Color.mixColors(Colors.royalBlue, Colors.darkGrey, 0.8);
-	public int standardFillColor = Color.mixColors(standardStrokeColor, Colors.white, 0.4);
-	public int rigidBodyFillColor = 0xffb471ff;
-	public int rigidBodyStrokeColor = 0xBB7748ff;
-
 	@Override
 	public void paint() {
 		beginClipping();
@@ -389,27 +498,50 @@ public class MechanicsTVG extends TVG {
 			style.fillColor = standardStrokeColor;
 			if (showVelocity) {
 				Vector2D v = new Vector2D(recorder.getDouble(p.vx, c), recorder.getDouble(p.vy, c));
-				drawArrow(r, v, velocityScaling, standardStrokeColor, ArrowHead.TRIANGLE);
+				drawArrow(r, v, velocityScaling, ArrowType.VELOCITY);
 			}
 			if (showAcceleration) {
 				Vector2D a = new Vector2D(recorder.getDouble(p.ax, c), recorder.getDouble(p.ay, c));
-				drawArrow(r, a, accelerationScaling, standardStrokeColor, ArrowHead.DOUBLE);
+				drawArrow(r, a, accelerationScaling, ArrowType.ACCELERATION);
 			}
-			if (showFh) {
-				Vector2D a = new Vector2D(recorder.getDouble(p.Fhx, c), recorder.getDouble(p.Fhy, c));
-				drawArrow(r, a, FhScaling, standardStrokeColor, ArrowHead.DOUBLE);
+			if (showAccelerationX) {
+				Vector2D a = new Vector2D(recorder.getDouble(p.ax, c), 0);
+				drawArrow(r, a, accelerationXScaling, ArrowType.ACCELERATION);
+			}
+			if (showAccelerationY) {
+				Vector2D a = new Vector2D(0, recorder.getDouble(p.ay, c));
+				drawArrow(r, a, accelerationYScaling, ArrowType.ACCELERATION);
 			}
 			if (showFr) {
 				Vector2D a = new Vector2D(recorder.getDouble(p.Frx, c), recorder.getDouble(p.Fry, c));
-				drawArrow(r, a, FrScaling, standardStrokeColor, ArrowHead.DOUBLE);
+				drawArrow(r, a, Fr, ArrowType.FORCE);
+			}
+			if (showFn) {
+				Vector2D a = new Vector2D(recorder.getDouble(p.Fnx, c), recorder.getDouble(p.Fny, c));
+				drawArrow(r, a, FnScaling, ArrowType.FORCE);
+				// drawText(r.x - getLength(r, FnScaling), r.y - getLength(r,
+				// FnScaling), "Fn");
+			}
+			if (showFg) {
+				Vector2D a = new Vector2D(recorder.getDouble(p.Fgx, c), recorder.getDouble(p.Fgy, c));
+				drawArrow(r, a, FgScaling, ArrowType.FORCE);
+			}
+			if (showFh) {
+				Vector2D a = new Vector2D(recorder.getDouble(p.Fhx, c), recorder.getDouble(p.Fhy, c));
+				drawArrow(r, a, FhScaling, ArrowType.FORCE);
+			}
+			if (showFres) {
+				Vector2D a = new Vector2D(recorder.getDouble(p.Fresx, c), recorder.getDouble(p.Fresy, c));
+				drawArrow(r, a, FresScaling, ArrowType.FORCE);
 			}
 
 			style.fillColor = standardFillColor;
 			drawPointMass(x, y, radius, p.object);
-			if (showLabels)
+			if (showLabels) {
 				drawText(x + radius, y + radius, p.name);
+			}
+
 		}
 		endClipping();
 	}
-
 }

@@ -24,66 +24,25 @@ public class RigidBodiesPS extends PhysicalSystem {
 	public double E_gesamt;
 
 	public RigidBodiesPS() {
-		test_rolling_plane();
+		test12();
 	}
 
-	private void test_rolling_incline_right() {
-		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
-		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -2), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, -0.1, 0, 0, false, new Rectangle(10.5, 1)));
-		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(6, -2), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, Math.PI / 2, 0, 0, false, new Rectangle(10.5, 1)));
-
-		rigidBodies.add(new RigidBody(new Circle(1), 1.5, new Vector2D(-4, 1), new Vector2D(-1, 0),
-				new Vector2D(0, -9.81), 0.6, 0, 0));
-
-		this.rigidBodies = new RigidBody[rigidBodies.size()];
-		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
-	}
-	
-	private void test_rolling_incline_left() {
-		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
-		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -2), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, 0.1, 0, 0, false, new Rectangle(10.5, 1)));
-		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(-6, -2), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, Math.PI / 2, 0, 0, false, new Rectangle(10.5, 1)));
-
-		rigidBodies.add(new RigidBody(new Circle(1), 1.5, new Vector2D(4, 1), new Vector2D(-1, 0),
-				new Vector2D(0, -9.81), 0.6, 0, 0));
-
-		this.rigidBodies = new RigidBody[rigidBodies.size()];
-		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
-	}
-	
-	private void test_rolling_plane() {
-		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
-		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -2), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, 0, 0, 0, false, new Rectangle(10.5, 1)));
-		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(6, -2), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, Math.PI / 2, 0, 0, false, new Rectangle(10.5, 1)));
-		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, 2.5), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, -0.1, 0, 0, false, new Rectangle(2, 0.2)));
-
-		rigidBodies.add(new RigidBody(new Circle(1), 1.5, new Vector2D(-4, 1), new Vector2D(2, 0),
-				new Vector2D(0, -9.81), 0.6, 0, 0));
-		rigidBodies.add(new RigidBody(new Circle(0.5), 1, new Vector2D(0, 0), new Vector2D(5, 0),
-				new Vector2D(0, -9.81), 0.6, 0, 0));
-
-		this.rigidBodies = new RigidBody[rigidBodies.size()];
-		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
+	private void test14() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void test_tri_penta_hexa() {
 		List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 
 		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, -2), new Vector2D(0, 0), new Vector2D(0, 0),
-				Double.MAX_VALUE, 0.1, 0, 0, false, new Rectangle(10.5, 1)));
+				Double.MAX_VALUE, 0, 0, 0, false, new Rectangle(10.5, 1)));
 
 		rigidBodies.add(new RigidBody(new Triangle(1), 1, new Vector2D(-4, 0), new Vector2D(), new Vector2D(0, -9.81),
 				1, 0, 0));
 		
-		rigidBodies.add(new RigidBody(new Pentagon(2), 1, new Vector2D(0, 1), new Vector2D(), new Vector2D(0, -9.81),
-				-0.1, 0, 0));
+		rigidBodies.add(new RigidBody(new Pentagon(2), 1, new Vector2D(0, 0), new Vector2D(), new Vector2D(0, -9.81),
+				0, 0, 0));
 		rigidBodies.add(new RigidBody(new Hexagon(2), 2.5, new Vector2D(4, 2), new Vector2D(), new Vector2D(0, -9.81),
 				0, 0, 0));
 
@@ -397,7 +356,13 @@ public class RigidBodiesPS extends PhysicalSystem {
 		mTVG.accelerationScaling = 10;
 		mTVG.angularVelocityScaling = 0.2;
 		mTVG.angularAccelerationScaling = 0.2;
+		mTVG.accelerationXScaling = 5;
+		mTVG.accelerationYScaling = 5;
+		mTVG.FnScaling = 1;
+		mTVG.FgScaling = 1;
 		mTVG.FhScaling = 10;
+		mTVG.FresScaling = 5;
+		mTVG.FlScaling = 1;
 		mTVG.showAngularAcceleration = false;
 		mTVG.showAngularDisplacement = false;
 		mTVG.showAngularVelocity = false;
@@ -405,8 +370,14 @@ public class RigidBodiesPS extends PhysicalSystem {
 		mTVG.showPath = true;
 		mTVG.showVelocity = true;
 		mTVG.showAcceleration = false;
+		mTVG.showAccelerationX = false;
+		mTVG.showAccelerationY = false;
 		mTVG.showFr = true;
+		mTVG.showFn = false;
+		mTVG.showFg = false;
 		mTVG.showFh = false;
+		mTVG.showFres = false;
+		mTVG.showFl = false;
 		g.addTVG(mTVG);
 	}
 
