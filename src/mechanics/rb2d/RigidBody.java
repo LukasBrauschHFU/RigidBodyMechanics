@@ -108,7 +108,7 @@ public class RigidBody {
 			RigidBody[] rigidBodies) {
 
 		if (this.in(r2)) {
-			Runnable handler = new RigidBodyCollisionHandler(this, r2, impactpoint(r2));
+			Runnable handler = new RigidBodyCollisionHandler(impactpoint(r2));
 			aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
 		}
 
@@ -141,6 +141,8 @@ public class RigidBody {
 					}
 				}
 			}
+			
+			double lastSmallestDistance = smallestDistance;
 
 			for (int i = 0; i < edges2.length; i++) {
 				for (int j = 0; j < vertices1.length; j++) {
@@ -156,7 +158,12 @@ public class RigidBody {
 
 			Vector2D p = new Vector2D(impactpoint.x, impactpoint.y);
 			Vector2D e = new Vector2D(impactedge.x2 - impactedge.x1, impactedge.y2 - impactedge.y1);
-			return new Impactpoint(p, e);
+			
+			if(smallestDistance != lastSmallestDistance)
+				return new Impactpoint(p, e, this, r2);
+			else 
+				return new Impactpoint(p, e, r2, this);
+
 		} else if (Circle.class.isAssignableFrom(this.shape.getClass())
 				&& Circle.class.isAssignableFrom(r2.shape.getClass())) {
 			Circle circleShape_r1 = (Circle) this.shape;
@@ -170,7 +177,7 @@ public class RigidBody {
 			impactEdge.normalize();
 			Vector2D impactPoint = VectorMath.add(this.r,
 					(VectorMath.mult(circleShape_r1.radius, VectorMath.normalize(r1_r2))));
-			return new Impactpoint(impactPoint, impactEdge);
+			return new Impactpoint(impactPoint, impactEdge, this, r2);
 		} else if (Circle.class.isAssignableFrom(this.shape.getClass())
 				&& Polygon.class.isAssignableFrom(r2.shape.getClass())) {
 			Polygon polygonShape_r2 = (Polygon) r2.shape;
@@ -196,7 +203,7 @@ public class RigidBody {
 						trueImpactEdge.set(1, 0);
 					if (this.r.y == r2.r.y)
 						trueImpactEdge.set(0, 1);
-					return new Impactpoint(impactPoint, trueImpactEdge);
+					return new Impactpoint(impactPoint, trueImpactEdge, r2, this);
 				}
 			}
 			// Case: hit edge
@@ -204,7 +211,7 @@ public class RigidBody {
 			Vector2D impactPoint = VectorMath.footOfPerpendicular(this.r, new Vector2D(impactEdge.x1, impactEdge.y1),
 					trueImpactEdge);
 			;
-			return new Impactpoint(impactPoint, trueImpactEdge);
+			return new Impactpoint(impactPoint, trueImpactEdge, this, r2);
 
 		} else if (Polygon.class.isAssignableFrom(this.shape.getClass())
 				&& Circle.class.isAssignableFrom(r2.shape.getClass())) {
@@ -231,7 +238,7 @@ public class RigidBody {
 						trueImpactEdge.set(1, 0);
 					if (r2.r.y == this.r.y)
 						trueImpactEdge.set(0, 1);
-					return new Impactpoint(impactPoint, trueImpactEdge);
+					return new Impactpoint(impactPoint, trueImpactEdge, this, r2);
 				}
 			}
 			// Case: hit edge
@@ -239,7 +246,7 @@ public class RigidBody {
 			Vector2D impactPoint = VectorMath.footOfPerpendicular(r2.r, new Vector2D(impactEdge.x1, impactEdge.y1),
 					trueImpactEdge);
 			;
-			return new Impactpoint(impactPoint, trueImpactEdge);
+			return new Impactpoint(impactPoint, trueImpactEdge, r2, this);
 		}
 		return null;
 	}
