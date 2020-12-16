@@ -41,5 +41,10 @@ public class Circle extends AbstractShape {
 	public double getI(double m) {
 		return m*radius*radius;
 	}
+	
+	@Override
+	public double getRadius() {
+		return radius;
+	}
 
 }
