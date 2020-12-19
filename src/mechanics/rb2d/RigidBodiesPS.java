@@ -17,7 +17,9 @@ import de.physolator.usr.*;
 import de.physolator.usr.components.Vector2D;
 
 public class RigidBodiesPS extends PhysicalSystem {
-
+	public int choice = 0;
+	public int zähler = 0;
+	public double position = 0;
 	public RigidBody[] rigidBodies;
 
 	@V(unit = "kg*m/s")
@@ -29,13 +31,18 @@ public class RigidBodiesPS extends PhysicalSystem {
 
 	private void test14() {
 List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
-		
-		rigidBodies.add(new RigidBody(new Rectangle(), 1.5, new Vector2D(-2, 1), new Vector2D(1, 0),
-				new Vector2D(0, 0), Math.PI/7, 0, 0));
-
-		rigidBodies.add(new RigidBody(new Rectangle(), 1.5, new Vector2D(2, 1), new Vector2D(-1, 0),
-				new Vector2D(0, 0), 0, 0.1, 0));
-		
+int x = 0;
+int y = 0;
+rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(x, y), new Vector2D(0, 0), new Vector2D(0, 0),
+		Double.MAX_VALUE, 0, 0, 0, false, new Rectangle(5, 1)));		
+    	rigidBodies.add(new RigidBody(new Rectangle(1,1), 0.5, new Vector2D(0, 5), new Vector2D(-1, -4), new Vector2D(0, -1), 0.4, 0, 0));
+    	rigidBodies.add(new RigidBody(new Rectangle(1,1), 0.5, new Vector2D(2, 3), new Vector2D(-1, -4), new Vector2D(0, -1), 0.4, 0, 0));
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(-10, 5), new Vector2D(0, 0), new Vector2D(0, 0),
+    			Double.MAX_VALUE, 0, 0, 0, false, new Rectangle(1, 10)));	
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(10, 5), new Vector2D(0, 0), new Vector2D(0, 0),
+    			Double.MAX_VALUE, 0, 0, 0, false, new Rectangle(1, 10)));
+		rigidBodies.add(new RigidBody(Double.MAX_VALUE, new Vector2D(0, 10), new Vector2D(0, 0), new Vector2D(0, 0),
+    			Double.MAX_VALUE, 0, 0, 0, false, new Rectangle(18, 1)));	
 		this.rigidBodies = new RigidBody[rigidBodies.size()];
 		this.rigidBodies = rigidBodies.toArray(this.rigidBodies);
 		
@@ -332,7 +339,9 @@ List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 		rigidBodies[4] = new RigidBody(1, new Vector2D(0, 0), new Vector2D(1, 1.1), new Vector2D(0, 0), 0.5, 10, 0, 0,
 				new Circle(0.1));
 	}
-
+	public void increase() {
+		zähler++;
+	}
 	@Override
 	public void f(double t, double dt) {
 		double E_gesamt_temp = 0;
@@ -359,8 +368,9 @@ List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 
 	@Override
 	public void initGraphicsComponents(GraphicsComponents g, Structure s, Recorder r, SimulationParameters sp) {
-		MechanicsTVG mTVG = new MechanicsTVG(this, s, r);
-		mTVG.geometry.setUserArea(-6, 6, -5, 3);
+	//	MechanicsTVG mTVG = new MechanicsTVG(this, s, r);
+		PongTVG mTVG = new PongTVG(this, s, r);
+		mTVG.geometry.setUserArea(-11, 11, -2, 15);
 		mTVG.velocityScaling = 100;
 		mTVG.accelerationScaling = 10;
 		mTVG.angularVelocityScaling = 0.2;
@@ -387,6 +397,7 @@ List<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 		mTVG.showFh = false;
 		mTVG.showFres = false;
 		mTVG.showFl = false;
+		mTVG.geometry.setRim(100, 20, 20, 20);
 		g.addTVG(mTVG);
 	}
 
