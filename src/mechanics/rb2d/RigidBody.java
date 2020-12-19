@@ -16,7 +16,9 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 public class RigidBody {
-	
+	public boolean collided = false;
+//	public RigidBody collidedBody = ;
+	public int colID = 99;
 	@Ignore
 	private static int count; 
 	@Ignore
@@ -105,11 +107,14 @@ public class RigidBody {
 	}
 
 	public void collisionWithRigidBodyCheck(AfterEventDescription aed, RigidBody r2, double t,
-			RigidBody[] rigidBodies) {
-
+			RigidBody[] rigidBodies) {		
 		if (this.in(r2)) {
 			Runnable handler = new RigidBodyCollisionHandler(impactpoint(r2));
 			aed.reportEvent(handler, "collision of rigidbodies: ", this.toString(), r2.toString());
+			//Flag, das der Körper mit einem anderen kollidiert ist
+			collided = true;
+			// Die "uid" des kollidierten Körpers
+			colID = r2.uid;
 		}
 
 	}
